@@ -40,10 +40,10 @@
         
          :root {
             /* Couleurs de fond de la PAGE (dégradé vibrant pastel) */
-            --body-bg-start: #70deff;
+            --body-bg-start: #f4f4f4;
             --color-sidebar: rgba(165, 243, 255, 0.509);
             /* Rose pastel léger */
-            --body-bg-end: #2497a6;
+            --body-bg-end: #c6c6c6;
             /* Cyan/Bleu aqua pastel */
             /* Couleurs du CONTENEUR Liquid Glass */
             --glass-bg: rgba(255, 255, 255, 0.35);
@@ -96,9 +96,9 @@
         
         @media (prefers-color-scheme: dark) {
              :root {
-            --body-bg-start: #346e7f;
+            --body-bg-start: #3b3b3b;
             /* Rose pastel léger */
-            --body-bg-end: #0e3e45;
+            --body-bg-end: #1e1e1e;
                 --glass-bg: rgba(0, 0, 0, 0.4);
                 /* Verre sombre semi-transparent */
                 --glass-border: rgba(255, 255, 255, 0.08);
@@ -107,17 +107,17 @@
                 --glass-inner-shadow: rgba(255, 255, 255, 0.03);
                 --text-color-primary: #ECF0F1;
                 /* Texte très clair */
-                --text-color-secondary: #95A5A6;
+                --text-color-secondary: #b8b8b8;
                 /* Gris clair-bleu */
-                --message-user-bg: #1b606f;
+                --message-user-bg: #656565;
                 /* Bleu plus profond */
-                --message-gemini-bg: #34515e;
+                --message-gemini-bg: #4a4a4a;
                 /* Bulle AI plus foncée (Même que le fond input) */
                 --bubble-user-text: #ffffff;
                 --bubble-gemini-text: #ECF0F1;
-                --input-bg: #34505e;
+                --input-bg: #535353;
                 /* ZONE DE SAISIE PLUS FONCÉE */
-                --input-border: #5D6D7E;
+                --input-border: #808080;
                 /* Bordure input plus foncée */
                 --send-button-bg: #000000;
                 /* Bouton d'envoi NOIR */
@@ -125,12 +125,12 @@
                 /* Fleche BLANCHE */
                 --header-title-color: #ECF0F1;
 
-                --color-sidebar: rgba(56, 101, 113, 0.509);
+                --color-sidebar: rgba(93, 93, 93, 0.509);
                 /* Couleur de la flèche pour le thème sombre (inverse du bouton: blanc) */
                 --arrow-color-filter: invert(1);
                 /* NOUVELLE VARIABLE: Couleur pour le bouton Stop (thème sombre) */
-                --stop-button-color: #3cbce7;
-                --file: #6ccaf5;
+                --stop-button-color: #462c2c;
+                --file: #424242;
                 /* Rouge */
             }
         }
@@ -151,6 +151,36 @@
             overflow: hidden;
             display: block;
             animation: gradientBackground 20s ease infinite alternate;
+        }
+
+        #chat-header,
+        #chat-container,
+        #input-area {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        #app-container {
+            position: fixed;
+            top: 20px;
+            bottom: 20px;
+            left: 310px;
+            right: 60px;
+            width: min(1120px, calc(100% - 330px));
+            height: calc(100dvh - 40px);
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            background: transparent;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+            border: none;
+            border-radius: 30px;
+            box-shadow: none;
+            overflow: hidden;
+            box-sizing: border-box;
         }
         
 
@@ -174,35 +204,16 @@
                 height: 100dvh;
             }
         }
-        /* Conteneur principal (Liquid Glass) - AJOUT des propriétés 3D pour la parallaxe */
-        
-        #app-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            bottom: 20px;
-            left: 320px;
-            display: flex;
-            flex-direction: column;
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            border-radius: 34px;
-            box-shadow: 0 20px 45px var(--glass-shadow), inset 0 0 18px var(--glass-inner-shadow);
-            overflow: hidden;
-            box-sizing: border-box;
-            transition: box-shadow 0.3s ease;
-        }
-        
-
         /* Header */
         
         #chat-header {
             /* Changement de padding pour deux lignes de contenu */
-            padding: 25px 30px 25px;
+            padding: 18px 8px 14px;
             background: transparent;
-            border-bottom: 1px solid var(--glass-border);
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -271,7 +282,7 @@
             transition: filter 0.3s ease;
         }
         
-        #home-button:hover img {}
+        
         /* Bouton Stop pour l'interruption */
         
         #stop-button {
@@ -298,6 +309,7 @@
         .header-profile {
             position: relative;
             margin-left: auto;
+            margin-right: 14px;
         }
 
         .header-profile-pic {
@@ -375,7 +387,8 @@
         #chat-container {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 20px 18px;
+            min-height: 0;
+            padding: 20px 8px;
             padding-bottom: calc(20px + env(safe-area-inset-bottom));
         }
         /* Scrollbar élégante (inchangée) */
@@ -445,6 +458,12 @@
         
         .message:nth-child(3) {
             animation-delay: 0.7s;
+        }
+
+        .message.streaming {
+            opacity: 1;
+            transform: none;
+            animation: none;
         }
         /* Message Utilisateur (long) */
         
@@ -527,9 +546,7 @@
             /* Pour une icône blanche sur fond gris */
         }
         
-        .copy-button:hover img {
-            /* Noir sur fond couleur d'accentuation */
-        }
+        
         /* STYLE PILULE POUR LES MESSAGES COURTS */
         
         .pill-message {
@@ -552,8 +569,9 @@
             bottom: 0;
             z-index: 10;
             background: transparent;
-            padding: 20px 18px;
-            border-top: 1px solid var(--glass-border);
+            border: none;
+            border-radius: 0;
+            padding: 10px 0;
             padding-bottom: calc(20px + env(safe-area-inset-bottom));
         }
         /* Conteneur de l'input - Surbrillance faible */
@@ -562,18 +580,14 @@
             display: flex;
             align-items: flex-end;
             background-color: var(--input-bg);
-            /* UTILISATION DE LA ZONE DE SAISIE PLUS FONCÉE */
             border: 1px solid var(--input-border);
             border-radius: 50px;
             padding: 12px;
-            box-shadow: 0 4px 15px rgba(84, 84, 84, 0.848);
             transition: all 0.4s ease;
         }
         
         #input-container:focus-within {
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.737);
-            border-color: var(--input-border);
-            /* Garde la bordure neutre */
+            border: 3px solid var(--input-border);
         }
         /* NOUVEAU: Styles pour la nouvelle fonctionnalité d'upload de fichier */
         
@@ -802,13 +816,13 @@
         /* 💥 Media Queries pour Mobile 💥 */
         
         @media (max-width: 768px) {
+            body {
+                padding: 14px 14px 14px 206px;
+            }
+
             #app-container {
-                top: 14px;
-                right: 14px;
-                bottom: 14px;
-                left: 224px;
-                border-radius: 26px;
-                box-shadow: 0 15px 30px var(--glass-shadow);
+                height: calc(100dvh - 28px);
+                border-radius: 24px;
             }
             #chat-header {
                 padding: 15px 15px 15px;
@@ -861,6 +875,7 @@
             height: 20px;
             background: inherit;
             -webkit-filter: blur(15px);
+            filter: blur(15px);
             opacity: 0.8;
             pointer-events: none;
         }
@@ -874,7 +889,7 @@
     top: 20px;
     left: 20px;
     bottom: 20px;
-    width: 280px;
+    width: 220px;
     height: auto;
     background: var(--color-sidebar);
     -webkit-backdrop-filter: blur(10px);
@@ -934,29 +949,73 @@
 
 .menu-toggle {
     display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-sidebar);
+    color: var(--text-color-primary);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    z-index: 3200;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
 }
 
 @media (max-width: 980px) {
     .sidebar {
-        width: 240px;
+        width: 190px;
         top: 14px;
         left: 14px;
         bottom: 14px;
         border-radius: 24px;
-        padding: 20px;
+        padding: 16px;
     }
 
     #app-container {
-        left: 268px;
         top: 14px;
-        right: 14px;
         bottom: 14px;
+        left: 220px;
+        right: 14px;
+        width: min(1040px, calc(100% - 234px));
+        height: calc(100dvh - 28px);
     }
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        width: 190px;
+        width: min(78vw, 280px);
+        padding: 14px;
+        top: 12px;
+        left: 12px;
+        bottom: 12px;
+        transform: translateX(calc(-100% - 24px));
+        transition: transform 0.28s ease;
+        z-index: 3100;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    #app-container {
+        top: 12px;
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        width: min(920px, calc(100% - 24px));
+        height: calc(100dvh - 24px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .menu-toggle {
+        display: flex;
     }
 }
 
@@ -986,6 +1045,10 @@
 
 <body>
 
+<button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu">
+    <i class="fas fa-bars"></i>
+</button>
+
 <!-- 📚 Sidebar -->
 <nav class="sidebar">
     <h2 class="logo">💬 Discussions</h2>
@@ -1002,10 +1065,8 @@
 </nav>
 
 
-    
-
-
     <div id="app-container">
+
         <div id="chat-header">
             <div id="header-controls">
                 <button id="stop-button">
@@ -1027,8 +1088,8 @@
         </div>
 
         <div id="chat-container">
-            <div class="message gemini pill-message">
-                Salut 👋 Je suis Morgann Music AI !
+            <div class="message gemini pill-message" id="welcome-message">
+                Bienvenue ! Comment puis-je t'aider ?
                 <div class="gemini-actions">
                     <button class="copy-button" title="Copier la réponse" onclick="copyMessageText(this)">
                         <img src="https://cdn-icons-png.flaticon.com/512/54/54702.png" alt="Copier" />
@@ -1073,6 +1134,7 @@
     query,
     orderBy,
     onSnapshot,
+    getDocs,
     doc,
     deleteDoc,
     updateDoc,
@@ -1112,6 +1174,13 @@
     sidebar?.classList.toggle("open");
   });
 
+    document.addEventListener("click", (e) => {
+        if (window.innerWidth > 768) return;
+        if (!sidebar || !menuToggle) return;
+        if (sidebar.contains(e.target) || menuToggle.contains(e.target)) return;
+        sidebar.classList.remove("open");
+    });
+
     headerProfilePic?.addEventListener("click", (e) => {
         e.stopPropagation();
         if (!headerProfileDropdown) return;
@@ -1146,8 +1215,35 @@
     }
 
   // ---------- UI helpers ----------
+    function extractFirstName(user) {
+        const raw = (user?.displayName || user?.email || "").trim();
+        if (!raw) return "";
+
+        const candidate = raw.split("@")[0].split(/[\s._-]+/).filter(Boolean)[0] || "";
+        if (!candidate) return "";
+
+        return candidate.charAt(0).toUpperCase() + candidate.slice(1).toLowerCase();
+    }
+
+    function updateGreetingMessage() {
+        const greetingEl = document.getElementById("welcome-message");
+        if (!greetingEl) return;
+
+        const actions = greetingEl.querySelector(".gemini-actions");
+        const firstName = extractFirstName(currentUser);
+        const hour = new Date().getHours();
+        const salutation = hour >= 18 ? "Bon soir" : "Bonne après-midi";
+        greetingEl.textContent = firstName
+            ? `${salutation} ${firstName} ! Comment puis-je t'aider ?`
+            : `${salutation} ! Comment puis-je t'aider ?`;
+
+        if (actions) greetingEl.appendChild(actions);
+    }
+
+    updateGreetingMessage();
+
   function clearChatUIKeepGreeting() {
-    // garde seulement le premier message "Salut 👋..."
+        // garde seulement le premier message d'accueil
     const first = chatContainer.querySelector(".message");
     chatContainer.innerHTML = "";
     if (first) chatContainer.appendChild(first);
@@ -1228,6 +1324,7 @@
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
             currentUser = null;
+            updateGreetingMessage();
             if (headerProfileContainer) headerProfileContainer.style.display = "none";
             setCurrentConversationId(null);
             clearChatUIKeepGreeting();
@@ -1255,6 +1352,7 @@
         }
 
         currentUser = user;
+    updateGreetingMessage();
         if (headerProfileContainer) headerProfileContainer.style.display = "block";
 
         setCurrentConversationId(null);
@@ -1449,17 +1547,17 @@
     // UI reset
     clearChatUIKeepGreeting();
 
-    // live messages
+        // chargement unique des messages (évite le rechargement du chat à chaque réponse)
     const msgsRef = collection(db, "users", currentUser.uid, "conversations", conversationId, "messages");
     const q = query(msgsRef, orderBy("createdAt", "asc"), limit(200));
 
-    unsubMessages = onSnapshot(q, (snap) => {
-      clearChatUIKeepGreeting();
-      snap.forEach((d) => {
-        const m = d.data();
-        renderMessage(m.role, m.text);
-      });
-    });
+        const snap = await getDocs(q);
+        snap.forEach((d) => {
+            const m = d.data();
+            renderMessage(m.role, m.text);
+        });
+
+        unsubMessages = null;
   }
 
   // ---------- Save message ----------
@@ -1512,10 +1610,9 @@ window.mmaiSaveMessage = async (role, text) => {
 
    <script>
        
-        const chatContainer = document.getElementById('chat-container');
+        const uiChatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
-        const appContainer = document.getElementById('app-container');
         const dynamicTitle = document.getElementById('dynamic-title');
         // NOUVEAU: Référence au bouton Stop
         const stopButton = document.getElementById('stop-button');
@@ -1572,9 +1669,61 @@ window.mmaiSaveMessage = async (role, text) => {
                 messageDiv.appendChild(actionsDiv);
             }
 
-            chatContainer.appendChild(messageDiv);
+            uiChatContainer.appendChild(messageDiv);
             // Assure que le message est bien visible
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            uiChatContainer.scrollTop = uiChatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        async function displayGeminiMessageWordByWord(fullText) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message gemini streaming';
+
+            const contentDiv = document.createElement('div');
+            messageDiv.appendChild(contentDiv);
+            uiChatContainer.appendChild(messageDiv);
+            uiChatContainer.scrollTop = uiChatContainer.scrollHeight;
+
+            const tokens = (fullText || '').split(/(\s+)/).filter((part) => part.length > 0);
+            const delayMs = tokens.length > 220 ? 22 : 36;
+            let progressiveText = '';
+            const canRenderMarkdown = !!(window.marked && typeof window.marked.parse === 'function');
+
+            for (const token of tokens) {
+                if (abortController?.signal?.aborted) break;
+                progressiveText += token;
+                if (canRenderMarkdown) {
+                    contentDiv.innerHTML = window.marked.parse(progressiveText);
+                } else {
+                    contentDiv.textContent = progressiveText;
+                }
+                uiChatContainer.scrollTop = uiChatContainer.scrollHeight;
+
+                if (/\S/.test(token)) {
+                    const extraPause = /[.!?…:]$/.test(token.trim()) ? 70 : 0;
+                    await new Promise((resolve) => setTimeout(resolve, delayMs + extraPause));
+                }
+            }
+
+            if (!abortController?.signal?.aborted) {
+                contentDiv.innerHTML = (window.marked && typeof window.marked.parse === 'function')
+                    ? window.marked.parse(fullText || '')
+                    : (fullText || '');
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'gemini-actions';
+
+                const copyButton = document.createElement('button');
+                copyButton.className = 'copy-button';
+                copyButton.title = 'Copier la réponse';
+                copyButton.innerHTML = '<img src="https://cdn-icons-png.flaticon.com/512/54/54702.png" alt="Copier" />';
+                copyButton.onclick = () => copyMessageText(copyButton);
+
+                actionsDiv.appendChild(copyButton);
+                messageDiv.appendChild(actionsDiv);
+                uiChatContainer.scrollTop = uiChatContainer.scrollHeight;
+            }
+
             return messageDiv;
         }
 
@@ -1624,7 +1773,7 @@ window.mmaiSaveMessage = async (role, text) => {
             if (abortController) {
                 abortController.abort();
                 stopButton.style.display = 'none'; // Cacher le bouton Stop
-                const lastMessage = chatContainer.lastChild;
+                const lastMessage = uiChatContainer.lastChild;
                 if (lastMessage && lastMessage.classList.contains('gemini')) {
                     // Retirer le spinner
                     lastMessage.innerHTML = lastMessage.innerHTML.replace(/<div class="loading-spinner">.*?<\/div>/s, '');
@@ -1815,11 +1964,10 @@ await window.mmaiSaveMessage("user", userDisplayMessage);
                 const data = await response.json();
 
                 // Retirer le message de chargement
-                chatContainer.removeChild(loadingMessage);
+                uiChatContainer.removeChild(loadingMessage);
 
-                // Afficher la réponse
-                const htmlResponse = marked.parse(data.response);
-displayMessage(htmlResponse, 'gemini', true);
+                // Afficher la réponse mot par mot
+                await displayGeminiMessageWordByWord(data.response || '');
 
 await window.mmaiSaveMessage("assistant", data.response);
 
@@ -1840,7 +1988,7 @@ await window.mmaiSaveMessage("assistant", data.response);
                     }
 
                     // Retirer ou mettre à jour le message de chargement avec l'erreur
-                    if (chatContainer.contains(loadingMessage)) {
+                    if (uiChatContainer.contains(loadingMessage)) {
                         loadingMessage.innerHTML = `⚠️ ${errorMessage}`;
                         loadingMessage.classList.remove('pill-message');
                     } else {
