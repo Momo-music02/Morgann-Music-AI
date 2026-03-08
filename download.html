@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Télécharger Morgann Music AI</title>
+    <meta property="og:image" content="1.png">
+    <meta property="og:description" content="Télécharge Morgann Music AI et entre dans une nouvelle dimension de création.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16 .png">
+    <link rel="icon" type="image/ico" sizes="48x48" href="/favicon .ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+    <meta name="theme-color" content="#59DAF5">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+        <header class="navbar" id="navbar">
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Mon Logo" class="logo" id="logo-dynamique">
+                </a>
+            </div>
+            <!-- Bouton Menu Hamburger -->
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+<ul id="nav-links">
+    <li><a href="index.html">Menu</a></li>
+    <li><a href="download.html">Télécharger</a></li>
+    <li><a href="ia.html">IA</a></li>
+    <li><a href="https://app.morgannmusic.uk">Site Principal</a></li>
+
+  <li class="auth-buttons" id="authButtons" style="display:none;">
+    <a href="login.html?mode=signup" class="nav-auth-link">S’inscrire</a>
+    <a href="login.html?mode=login" class="nav-auth-link">Se connecter</a>
+  </li>
+
+    <!-- PROFIL -->
+    <li class="profile-container" id="profileContainer">
+<img src="pdp.png" id="profilePic" class="profile-pic">
+
+        <div class="profile-dropdown" id="profileDropdown">
+            <a href="compte.html">Compte</a>
+            <button id="logoutBtn">Déconnexion</button>
+        </div>
+    </li>
+</ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>
+            <stong>💾 Télécharger</strong>
+        </h2>
+        <h1 class="intro">
+            🚀 La version 3.4.1
+        </h1>
+
+        <p>Télécharge Morgann Music AI et entre dans une nouvelle dimension de création. Une interface fluide, une puissance instantanée, une IA qui comprend ta vision. Tout ce dont tu as besoin pour créer, apprendre et explorer — toujours à portée de main.
+        </p>
+
+        <h1>💻 Disponible dès maintenant sur 🪟 Windows</h1>
+
+        <p>Morgann Music AI est dès aujourd’hui disponible au téléchargement pour Windows. Les versions macOS, iOS et Android sont en cours de développement — elles arrivent bientôt, repensées pour chaque plateforme. En attendant, tu peux déjà profiter de
+            l’expérience complète sur ton téléphone : ouvre ai.morgannmusic.uk/ia, clique sur "Partager", puis choisis "Ajouter à l’écran d’accueil" depuis ton navigateur. L’application s’installera comme une vraie app — élégante, fluide et toujours accessible.
+
+
+        </p>
+
+
+
+        <div class="row">
+            <a href="ia.html">
+                <button class="btn">Télécharger</button>
+
+            </a>
+
+
+
+
+
+    </main>
+</body>
+
+<script>
+    gsap.from(".glow-line", {
+        y: -60,
+        opacity: 0,
+        duration: 1,
+
+        ease: "power3.out",
+    });
+</script>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (!navbar) return;
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  const menuToggle = document.getElementById('menu-toggle');
+  const navLinks = document.getElementById('nav-links');
+  menuToggle?.addEventListener('click', () => {
+    navLinks?.classList.toggle('active');
+  });
+</script>
+
+<script>
+  const logo = document.getElementById('logo-dynamique');
+  const logoClair = "logo.png";
+  const logoSombre = "logo2.png";
+
+  function setLogoBasedOnScheme() {
+    if (!logo) return;
+    logo.src = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      ? logoSombre
+      : logoClair;
+  }
+
+  setLogoBasedOnScheme();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setLogoBasedOnScheme);
+</script>
+
+<script type="module">
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+  // ✅ Initialise Firebase UNE fois (sinon erreur si déjà initialisé ailleurs)
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMoFF5b09eiSeQQ_BhSbclmGj3S6zAGXE",
+    authDomain: "morgann-music-ai.firebaseapp.com",
+    projectId: "morgann-music-ai",
+    storageBucket: "morgann-music-ai.firebasestorage.app",
+    messagingSenderId: "817825197478",
+    appId: "1:817825197478:web:05f7a630b27b1fe8f17367",
+    measurementId: "G-0Q8PTSJTY0"
+  };
+
+  const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const profileContainer = document.getElementById("profileContainer");
+  const profileDropdown = document.getElementById("profileDropdown");
+  const authButtons = document.getElementById("authButtons");
+
+  let isLoggedIn = false;
+  onAuthStateChanged(auth, (user) => {
+    isLoggedIn = !!user;
+    if (profileContainer) profileContainer.style.display = isLoggedIn ? "list-item" : "none";
+    if (authButtons) authButtons.style.display = isLoggedIn ? "none" : "flex";
+    if (!isLoggedIn && profileDropdown) profileDropdown.style.display = "none";
+  });
+
+  // ✅ Clic PDP : si déconnecté -> login.html ; sinon -> dropdown
+  document.addEventListener("click", (e) => {
+    const pic = e.target.closest("#profilePic");
+    if (!pic) return;
+
+    if (!isLoggedIn) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const dropdown = document.getElementById("profileDropdown");
+    if (!dropdown) return;
+
+    dropdown.style.display = (dropdown.style.display === "flex") ? "none" : "flex";
+  });
+
+  // ✅ Fermer dropdown si clic ailleurs
+  document.addEventListener("click", (e) => {
+    const container = document.getElementById("profileContainer");
+    const dropdown = document.getElementById("profileDropdown");
+    if (!container || !dropdown) return;
+    if (!container.contains(e.target)) dropdown.style.display = "none";
+  });
+</script>
+
+
+</body>
+
+
+
+</html>

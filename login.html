@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Morgann Music AI — Connexion</title>
+  <style>
+    :root{
+    --bg1: #59DAF5;
+    --bg2: #30b3c5;
+      --card2:#0f1526;
+      --txt:#000000;
+      --muted:#9aa6c3;
+      --line:#24314f;
+      --accent:#7c5cff;
+      --accent2:#35cfff;
+      --danger:#ff4d6d;
+      --ok:#33d69f;
+      --radius:40px;
+      --txt2: white;
+      --navbar-height: 64px;
+
+    }
+
+   @media (prefers-color-scheme: dark) {
+        :root{
+            --bg1: #346e7f;
+            --bg2: #0e3e45;
+            --card:#10182a;
+            --card2:#0f1526;
+            --txt:#FFFFFF;
+            --muted:#9aa6c3;
+            --line:#24314f;
+            --accent:#7c5cff;
+            --accent2:#35cfff;
+            --danger:#ff4d6d;
+            --ok:#33d69f;
+            --txt2: black;
+        }
+        }
+
+        .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+    transition: 0.5s all;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.navbar:hover {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+}
+
+.navbar.scrolled {
+    background: var(--nbscr);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+    border-top-right-radius: 0;
+    /* Coin supérieur droit */
+    border-bottom-left-radius: 45px;
+    /* Coin inférieur gauche arrondi */
+    border-bottom-right-radius: 45px;
+}
+
+.navbar.scrolled:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+    border-top-right-radius: 0;
+    /* Coin supérieur droit */
+    border-bottom-left-radius: 15px;
+    /* Coin inférieur gauche arrondi */
+    border-bottom-right-radius: 15px;
+}
+
+.navbar nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  min-height: var(--navbar-height);
+  padding: 8px 24px;
+}
+
+.navbar .logo img {
+  height: 34px;
+    width: auto;
+    user-select: none;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: var(--txt);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar ul li a:hover {
+    opacity: 0.7;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-auth-link {
+  text-decoration: none;
+  color: var(--txt);
+  border: 1px solid var(--txt);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  line-height: 1;
+  transition: 0.25s;
+}
+
+.nav-auth-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
+.navbar .menu-toggle {
+    display: none;
+    font-size: 1.8em;
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .navbar .menu-toggle {
+        display: block;
+        /* FIX: Assure que le bouton est visible sur mobile */
+        position: relative;
+        z-index: 9999;
+        color: var(--text-color3);
+        /* Assure que le bouton est au-dessus de tout pour être cliquable */
+    }
+    .navbar ul {
+        /* Menu mobile réduit sur le côté */
+        position: absolute;
+      top: var(--navbar-height);
+        right: 0;
+        width: 200px;
+        /* Largeur réduite pour le menu latéral */
+        background: var(--bg3);
+        color: #992a99;
+        /* J'ai gardé votre couleur ajustée */
+        flex-direction: column;
+        align-items: flex-start;
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        padding: 15px;
+        /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
+        display: flex;
+        visibility: hidden;
+        /* Cache le menu */
+        pointer-events: none;
+        /* TRÈS IMPORTANT: Empêche le menu masqué de bloquer le clic sur le bouton */
+        border-radius: 40px;
+        /* J'ai gardé votre rayon de bordure ajusté */
+        transition: 0.4s all;
+        transform: translateX(100%);
+        /* Masque le menu à droite (hors de vue) */
+    }
+        .navbar ul:hover {
+            border-radius: 0 0 0 40px;
+        }
+
+    .navbar ul.active {
+        visibility: visible;
+        /* Révèle le menu */
+        pointer-events: all;
+        /* Permet d'interagir avec le menu */
+        transform: translateX(0);
+        /* Révèle le menu */
+    }
+    .navbar ul li {
+        width: 100%;
+        margin: 10px 0;
+    }
+    .navbar ul li a:hover {
+        text-decoration: underline;
+    }
+
+    .auth-buttons {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .nav-auth-link {
+      width: 100%;
+      text-align: center;
+    }
+
+    .navbar nav {
+      min-height: 56px;
+      padding: 8px 16px;
+    }
+}
+
+    
+  
+        
+    
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    background-image: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%);
+    background-color: var(--bg1);
+      color:var(--text);
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .wrap{
+      width:min(980px,100%);
+      display:grid;                 /* ✅ tu l’avais perdu */
+      grid-template-columns: 1fr;
+      gap:18px;
+      justify-items:center;
+    }
+
+    .card{
+      width:min(520px, 100%);
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, var(--bg2) 0%, var(--bg1) 100%);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px;}
+    .brand{font-weight:700; letter-spacing:.3px;}
+    .brand{color: var(--txt);}
+
+    .mode-headline{
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: var(--txt);
+      opacity: .9;
+      font-weight: 500;
+    }
+
+    .seg{
+      display:flex;
+      background: var(--bg1);
+      border:1px solid var(--txt);
+      border-radius:999px;
+      padding:4px;
+      gap:4px;
+      width:fit-content;
+    }
+    .seg button{
+      border:0;
+      background:transparent;
+      color:var(--txt);
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:13px;
+      transition:.15s;
+    }
+    .seg button.active{
+      background: var(--bg2);
+      color:var(--txt);
+      box-shadow: inset 0 0 0 1px var(--txt);
+    }
+
+    form{display:grid; gap:12px; margin-top:10px;}
+    .row{display:grid; gap:10px;}
+    label{font-size:13px; color:var(--txt);}
+    input,
+    select{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 50px;
+      border:1px solid var(--txt);
+      background: rgba(0,0,0,.18);
+      color:var(--txt);
+      outline:none;
+    }
+    input:focus,
+    select:focus{
+      border-color: var(--bg2);
+      box-shadow: 0 0 0 3px var(--txt);
+    }
+
+    .forgot-wrap{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:6px;
+    }
+
+    .forgot-btn{
+      border:0;
+      background:transparent;
+      color:var(--txt);
+      text-decoration:underline;
+      cursor:pointer;
+      font-size:13px;
+      padding:0;
+      opacity:.85;
+    }
+
+    .forgot-btn:hover{opacity:1;}
+    .forgot-btn:disabled{opacity:.5; cursor:not-allowed;}
+
+    .actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .btn{
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      padding:12px 14px;
+      border-radius:50px;
+      background: var(--txt);
+      color:var(--txt2);
+      flex:1;
+      min-width:160px;
+      transition:.15s;
+    }
+    .btn:disabled{opacity:.55; cursor:not-allowed;}
+    .btn.secondary{
+      background: transparent;
+      border:1px solid var(--txt);
+      color:var(--txt);
+    }
+
+    .hint{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .status{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      font-size:13px;
+      color: var(--muted);
+      min-height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .status strong{color:var(--txt);}
+    .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .pill.ok{border-color: rgba(51,214,159,.35); color: var(--ok); background: rgba(51,214,159,.10);}
+    .pill.bad{border-color: rgba(255,77,109,.35); color: var(--danger); background: rgba(255,77,109,.10);}
+
+    .hidden{display:none !important;}
+    #recaptcha-container{margin-top:8px;}
+
+    /* Profile */
+.profile-container {
+    position: relative;
+    list-style: none;
+    margin-left: 15px;
+}
+
+.profile-pic {
+  width: 34px;
+  height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+}
+
+.profile-pic:hover {
+    border-color: #7c5cff;
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+  top: 44px;
+    background: #10182a;
+    border: 1px solid #24314f;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    min-width: 160px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+    padding: 10px 14px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #e7ecff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+    background: rgba(124,92,255,0.2);
+}
+
+  </style>
+</head>
+<body>
+        <header class="navbar" id="navbar">
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.png" alt="Mon Logo" class="logo" id="logo-dynamique">
+                </a>
+            </div>
+            <!-- Bouton Menu Hamburger -->
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+<ul id="nav-links">
+    <li><a href="index.html">Menu</a></li>
+    <li><a href="download.html">Télécharger</a></li>
+    <li><a href="ia.html">IA</a></li>
+    <li><a href="https://app.morgannmusic.uk">Site Principal</a></li>
+
+    <li class="auth-buttons" id="authButtons" style="display:none;">
+      <a href="login.html?mode=signup" class="nav-auth-link">S’inscrire</a>
+      <a href="login.html?mode=login" class="nav-auth-link">Se connecter</a>
+    </li>
+
+    <!-- PROFIL -->
+<li class="profile-container" id="profileContainer">
+  <img src="pdp.png" id="profilePic" class="profile-pic" alt="Profil">
+  <div class="profile-dropdown" id="profileDropdown">
+    <a href="compte.html">Compte</a>
+    <button id="logoutBtn">Déconnexion</button>
+  </div>
+</li></ul>
+        </nav>
+    </header>
+
+
+  <div class="wrap">
+    <main class="card">
+      <div class="topbar">
+        <div class="brand">Connexion & Inscription</div>
+        <div class="seg" id="modeSeg">
+          <button type="button" data-mode="login" class="active">Connexion</button>
+          <button type="button" data-mode="signup">Inscription</button>
+        </div>
+      </div>
+
+      <p class="mode-headline" id="modeHeadline">Connectez-vous avec votre compte Morgann Music</p>
+
+      <div class="seg" id="methodSeg" style="margin-bottom:8px;">
+        <button type="button" data-method="email" class="active">Email ✉️</button>
+        <button type="button" data-method="google">Google 🔵</button>
+      </div>
+
+      <div id="signupProfileFields" class="hidden">
+        <div class="row">
+          <label for="signupFirstName">Prénom</label>
+          <input id="signupFirstName" type="text" placeholder="Ton prénom" autocomplete="given-name" />
+        </div>
+
+        <div class="row">
+          <label for="signupLastName">Nom</label>
+          <input id="signupLastName" type="text" placeholder="Ton nom" autocomplete="family-name" />
+        </div>
+
+        <div class="row" style="margin-bottom:10px;">
+          <label for="signupCountry">Pays</label>
+          <select id="signupCountry" autocomplete="country-name">
+            <option value="">Choisir un pays</option>
+            <option>France</option>
+            <option>Belgique</option>
+            <option>Suisse</option>
+            <option>Canada</option>
+            <option>Maroc</option>
+            <option>Algérie</option>
+            <option>Tunisie</option>
+            <option>Sénégal</option>
+            <option>Côte d’Ivoire</option>
+            <option>Cameroun</option>
+            <option>Autre</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- EMAIL FORM -->
+      <form id="emailForm" autocomplete="on">
+        <div class="row">
+          <label for="email">Adresse email</label>
+          <input id="email" type="email" placeholder="ex: moi@mail.com" required />
+        </div>
+
+        <div class="row">
+          <label for="password">Mot de passe</label>
+          <input id="password" type="password" placeholder="••••••••" required minlength="6" />
+        </div>
+
+        <div class="forgot-wrap">
+          <button class="forgot-btn" id="forgotPasswordBtn" type="button">Mot de passe oublié ?</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn" id="emailSubmit" type="submit">Se connecter</button>
+          <button class="btn secondary" id="logoutBtn" type="button">Se déconnecter</button>
+        </div>
+      </form>
+
+      <!-- GOOGLE FORM -->
+      <form id="googleForm" class="hidden" autocomplete="off">
+        <div class="actions">
+          <button class="btn" id="googleSignInBtn" type="button">Continuer avec Google</button>
+        </div>
+        <p class="hint">
+          Tu seras redirigé vers Google pour te connecter en toute sécurité.
+        </p>
+      </form>
+
+      <div class="status" role="status" aria-live="polite" aria-atomic="true">
+        <div>
+          <strong id="statusTitle">Non connecté</strong>
+          <div id="statusMsg">Choisis Email ou Téléphone puis connecte-toi.</div>
+        </div>
+        <span class="pill" id="statusPill">OFF</span>
+      </div>
+
+      <p class="hint" id="errorHint">Les erreurs de connexion apparaîtront ici en cas de problème.</p>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    sendPasswordResetEmail,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+  // ✅ Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMoFF5b09eiSeQQ_BhSbclmGj3S6zAGXE",
+    authDomain: "morgann-music-ai.firebaseapp.com",
+    projectId: "morgann-music-ai",
+    storageBucket: "morgann-music-ai.firebasestorage.app",
+    messagingSenderId: "817825197478",
+    appId: "1:817825197478:web:05f7a630b27b1fe8f17367",
+    measurementId: "G-0Q8PTSJTY0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // UI refs (login page)
+  const modeSeg = document.getElementById("modeSeg");
+  const methodSeg = document.getElementById("methodSeg");
+  const signupProfileFields = document.getElementById("signupProfileFields");
+  const emailForm = document.getElementById("emailForm");
+  const googleForm = document.getElementById("googleForm");
+
+  const signupFirstNameInput = document.getElementById("signupFirstName");
+  const signupLastNameInput = document.getElementById("signupLastName");
+  const signupCountryInput = document.getElementById("signupCountry");
+
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const emailSubmit = document.getElementById("emailSubmit");
+  const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
+  const googleSignInBtn = document.getElementById("googleSignInBtn");
+  const modeHeadline = document.getElementById("modeHeadline");
+
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const statusTitle = document.getElementById("statusTitle");
+  const statusMsg = document.getElementById("statusMsg");
+  const statusPill = document.getElementById("statusPill");
+
+  // Navbar profil (si présent sur cette page)
+  const profileContainer = document.getElementById("profileContainer");
+  const profileDropdown = document.getElementById("profileDropdown");
+  const authButtons = document.getElementById("authButtons");
+
+  // State
+  let mode = "login";   // login | signup
+  let method = "email"; // email | google
+  const googleProvider = new GoogleAuthProvider();
+
+  function setActive(segEl, key, value){
+    if (!segEl) return;
+    [...segEl.querySelectorAll("button")].forEach(b=>{
+      b.classList.toggle("active", b.dataset[key] === value);
+    });
+  }
+
+  function setStatus(type, title, msg){
+    if (!statusTitle || !statusMsg || !statusPill) return;
+    statusTitle.textContent = title;
+    statusMsg.textContent = msg;
+    statusPill.classList.remove("ok","bad");
+
+    if(type === "ok"){ statusPill.textContent = "ON"; statusPill.classList.add("ok"); }
+    else if(type === "bad"){ statusPill.textContent = "ERREUR"; statusPill.classList.add("bad"); }
+    else { statusPill.textContent = "OFF"; }
+  }
+
+  function humanizeAuthError(err){
+    const code = err?.code || "";
+    if(code.includes("auth/invalid-email")) return "Email invalide.";
+    if(code.includes("auth/invalid-credential")) return "Email ou mot de passe incorrect.";
+    if(code.includes("auth/missing-password")) return "Mot de passe manquant.";
+    if(code.includes("auth/weak-password")) return "Mot de passe trop faible (min 6 caractères).";
+    if(code.includes("auth/email-already-in-use")) return "Cet email est déjà utilisé.";
+    if(code.includes("auth/user-not-found")) return "Utilisateur introuvable.";
+    if(code.includes("auth/wrong-password")) return "Mot de passe incorrect.";
+    if(code.includes("auth/network-request-failed")) return "Problème réseau. Vérifie ta connexion Internet.";
+    if(code.includes("auth/too-many-requests")) return "Trop de tentatives. Réessaie plus tard.";
+    if(code.includes("auth/popup-closed-by-user")) return "Connexion Google annulée.";
+    if(code.includes("auth/popup-blocked")) return "Popup bloquée. Autorise les popups puis réessaie.";
+    return "Erreur: " + (code || "inconnue");
+  }
+
+  function showMethod(){
+    const isEmail = method === "email";
+    const isGoogle = method === "google";
+    const isSignup = mode === "signup";
+    if (signupProfileFields) signupProfileFields.classList.toggle("hidden", !isSignup);
+    if (emailForm) emailForm.classList.toggle("hidden", !isEmail);
+    if (googleForm) googleForm.classList.toggle("hidden", !isGoogle);
+  }
+
+  function getSignupProfileData() {
+    if (mode !== "signup") return null;
+
+    const firstName = signupFirstNameInput?.value.trim() || "";
+    const lastName = signupLastNameInput?.value.trim() || "";
+    const country = signupCountryInput?.value.trim() || "";
+
+    if (!firstName || !lastName || !country) {
+      setStatus("bad", "Infos manquantes", "Nom, prénom et pays sont obligatoires pour l’inscription.");
+      return null;
+    }
+
+    return { firstName, lastName, country };
+  }
+
+  async function saveSignupProfile(user, profile) {
+    if (!user || !profile) return;
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email || null,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      country: profile.country,
+      profileCompleted: true,
+      updatedAt: serverTimestamp(),
+      createdAt: serverTimestamp()
+    }, { merge: true });
+  }
+
+  function refreshButtonTexts(){
+    if (emailSubmit) emailSubmit.textContent = (mode === "signup") ? "Créer le compte" : "Se connecter";
+    if (forgotPasswordBtn) forgotPasswordBtn.style.display = (mode === "login" && method === "email") ? "inline" : "none";
+    if (googleSignInBtn) googleSignInBtn.textContent = (mode === "signup") ? "S’inscrire avec Google" : "Se connecter avec Google";
+    if (modeHeadline) {
+      modeHeadline.textContent = mode === "signup"
+        ? "Créer un compte Morgann Music"
+        : "Connectez-vous avec votre compte Morgann Music";
+    }
+  }
+
+  // ✅ Switch mode (connexion / inscription)
+  modeSeg?.addEventListener("click",(e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    mode = btn.dataset.mode;
+    setActive(modeSeg, "mode", mode);
+    refreshButtonTexts();
+    showMethod();
+  });
+
+  // ✅ Switch method (email / phone)
+  methodSeg?.addEventListener("click",(e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    method = btn.dataset.method;
+    setActive(methodSeg, "method", method);
+    refreshButtonTexts();
+    showMethod();
+  });
+
+  // ✅ EMAIL submit (inscription + connexion + redirection)
+  emailForm?.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const email = emailInput?.value.trim() || "";
+    const password = passwordInput?.value || "";
+    const signupProfile = getSignupProfileData();
+
+    if (mode === "signup" && !signupProfile) return;
+
+    if (!email || !password) {
+      setStatus("bad","Erreur","Email et mot de passe requis.");
+      return;
+    }
+
+    emailSubmit.disabled = true;
+    try{
+      if (mode === "signup") {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await saveSignupProfile(cred.user, signupProfile);
+        setStatus("ok","Compte créé ✅","Connexion automatique…");
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+        setStatus("ok","Connecté ✅","Redirection…");
+      }
+      window.location.href = "ia.html"; // ✅ redirection
+    }catch(err){
+      setStatus("bad","Erreur", humanizeAuthError(err));
+    }finally{
+      emailSubmit.disabled = false;
+    }
+  });
+
+  // ✅ Mot de passe oublié (email)
+  forgotPasswordBtn?.addEventListener("click", async ()=>{
+    const email = emailInput?.value.trim() || "";
+    if (!email) {
+      setStatus("bad", "Email requis", "Renseigne ton adresse email puis réessaie.");
+      emailInput?.focus();
+      return;
+    }
+
+    forgotPasswordBtn.disabled = true;
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setStatus("ok", "Email envoyé ✅", "Vérifie ta boîte mail pour réinitialiser ton mot de passe.");
+    } catch (err) {
+      setStatus("bad", "Erreur", humanizeAuthError(err));
+    } finally {
+      forgotPasswordBtn.disabled = false;
+    }
+  });
+
+  // ✅ GOOGLE: connexion / inscription
+  googleSignInBtn?.addEventListener("click", async ()=>{
+    const signupProfile = getSignupProfileData();
+    if (mode === "signup" && !signupProfile) return;
+
+    googleSignInBtn.disabled = true;
+    try {
+      const cred = await signInWithPopup(auth, googleProvider);
+      if (mode === "signup") {
+        await saveSignupProfile(cred.user, signupProfile);
+      }
+      setStatus("ok", "Connecté avec Google ✅", "Redirection…");
+      window.location.href = "ia.html";
+    } catch (err) {
+      setStatus("bad", "Erreur", humanizeAuthError(err));
+    } finally {
+      googleSignInBtn.disabled = false;
+    }
+  });
+
+  // ✅ Logout (si bouton existe sur la page)
+  async function doLogout(){
+    try{
+      await signOut(auth);
+      window.location.href = "login.html";
+    }catch(err){
+      setStatus("bad","Erreur", humanizeAuthError(err));
+    }
+  }
+  logoutBtn?.addEventListener("click", doLogout);
+
+  // ✅ PDP: si déconnecté -> login.html ; si connecté -> dropdown
+  // (event delegation: marche même si navbar injectée après)
+  document.addEventListener("click", (e) => {
+    const pic = e.target.closest("#profilePic");
+    if (!pic) return;
+
+    if (!auth.currentUser) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const dd = document.getElementById("profileDropdown");
+    if (!dd) return;
+
+    dd.style.display = (dd.style.display === "flex") ? "none" : "flex";
+  });
+
+  // fermer dropdown si clic ailleurs
+  document.addEventListener("click", (e) => {
+    const container = document.getElementById("profileContainer");
+    const dd = document.getElementById("profileDropdown");
+    if (!container || !dd) return;
+    if (!container.contains(e.target)) dd.style.display = "none";
+  });
+
+  // ✅ état auth
+  onAuthStateChanged(auth, (user)=>{
+    if (profileContainer) profileContainer.style.display = user ? "list-item" : "none";
+    if (authButtons) authButtons.style.display = user ? "none" : "flex";
+    if (!user && profileDropdown) profileDropdown.style.display = "none";
+    if(user){
+      setStatus("ok","Connecté ✅","Session active.");
+    }else{
+      setStatus("neutral","Non connecté","Choisis Email ou Google puis connecte-toi.");
+    }
+  });
+
+  // init
+  const modeFromUrl = new URLSearchParams(window.location.search).get("mode");
+  if (modeFromUrl === "signup" || modeFromUrl === "login") {
+    mode = modeFromUrl;
+    setActive(modeSeg, "mode", mode);
+  }
+  refreshButtonTexts();
+  showMethod();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Morgann Music AI ⎮ Chat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta property="og:image" content="2.png">
+    <meta property="og:description" content="Morgann Music AI. L'intelligence au service de ton imagination.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuMGFYw5U/yKzI5ZqD5v/e10z1x6+3Rz4m0S9K0P8v6C5w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16 .png">
+    <link rel="icon" type="image/ico" sizes="48x48" href="/favicon .ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJd4S3uSChQOpQ7A3PShR+zVmhMImB2W6W75S8404fS3tD1/r1sJ8l9J6t7S8..." crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <meta name="theme-color" content="#70deff">
+
+    <style>
+        /* ========================================================================= */
+        /* === DÉBUT DES MODIFICATIONS MAJEURES DANS LE BLOC <style> === */
+        /* ========================================================================= */
+        /* Variables CSS pour les thèmes CLAIR (par défaut) - Couleurs PASTEL & Animations */
+        
+         :root {
+            /* Couleurs de fond de la PAGE (dégradé vibrant pastel) */
+            --body-bg-start: #70deff;
+            --color-sidebar: rgba(165, 243, 255, 0.509);
+            /* Rose pastel léger */
+            --body-bg-end: #2497a6;
+            /* Cyan/Bleu aqua pastel */
+            /* Couleurs du CONTENEUR Liquid Glass */
+            --glass-bg: rgba(255, 255, 255, 0.35);
+            /* Un peu plus opaque pour mieux voir le flou */
+            --glass-border: rgba(195, 246, 255, 0.8);
+            /* Bordure plus nette */
+            --glass-shadow: rgba(0, 0, 0, 0.5);
+            /* Ombre par défaut (PLUS FONCÉE) */
+            --glass-inner-shadow: rgba(255, 255, 255, 1);
+            /* Reflet interne plus lumineux */
+            --blur-intensity: 35px;
+            /* Flou plus intense pour l'effet "glace" */
+            /* Couleurs générales du texte */
+            --text-color-primary: #000000;
+            /* Gris très foncé pour une bonne lisibilité */
+            --text-color-secondary: #161616;
+            /* Gris-bleu doux */
+            /* Bulles de message */
+            --message-user-bg: #ade6f9;
+            /* Bleu ciel doux pour l'utilisateur */
+            --message-gemini-bg: #ade6f9;
+            /* Bulle AI plus foncée (Bleu très clair) */
+            --bubble-user-text: #141414;
+            /* Texte blanc sur bulle bleue */
+            --bubble-gemini-text: #131313;
+            /* Texte sombre sur bulle claire */
+            /* Input et bouton d'envoi */
+            --input-bg: #ade6f9;
+            /* ZONE DE SAISIE PLUS FONCÉE */
+            --input-border: #BDC3C7;
+            /* Bordure input gris clair */
+            --send-button-bg: #b7e8f8;
+            /* Bouton d'envoi BLANC */
+            --send-button-text: #000000;
+            /* Fleche NOIRE */
+            /* Accentuation pour le titre */
+            --header-title-color: #000000;
+            /* Bleu-gris foncé pour le titre */
+            /* Rayons de bordure des bulles */
+            --bubble-radius-outer: 50px;
+            --bubble-radius-inner: 25px;
+            /* Couleur de la flèche par défaut (inverse du bouton: noir) */
+            --arrow-color-filter: invert(0);
+            /* NOUVELLE VARIABLE: Couleur pour le bouton Stop */
+            --stop-button-color: #3c9ae7;
+            --file: #33899d;
+            /* Rouge */
+        }
+        /* Thème SOMBRE - Couleurs Pastel Adaptées */
+        
+        @media (prefers-color-scheme: dark) {
+             :root {
+            --body-bg-start: #346e7f;
+            /* Rose pastel léger */
+            --body-bg-end: #0e3e45;
+                --glass-bg: rgba(0, 0, 0, 0.4);
+                /* Verre sombre semi-transparent */
+                --glass-border: rgba(255, 255, 255, 0.08);
+                --glass-shadow: rgba(0, 0, 0, 0.95);
+                /* Ombre par défaut (PLUS FONCÉE) */
+                --glass-inner-shadow: rgba(255, 255, 255, 0.03);
+                --text-color-primary: #ECF0F1;
+                /* Texte très clair */
+                --text-color-secondary: #95A5A6;
+                /* Gris clair-bleu */
+                --message-user-bg: #1b606f;
+                /* Bleu plus profond */
+                --message-gemini-bg: #34515e;
+                /* Bulle AI plus foncée (Même que le fond input) */
+                --bubble-user-text: #ffffff;
+                --bubble-gemini-text: #ECF0F1;
+                --input-bg: #34505e;
+                /* ZONE DE SAISIE PLUS FONCÉE */
+                --input-border: #5D6D7E;
+                /* Bordure input plus foncée */
+                --send-button-bg: #000000;
+                /* Bouton d'envoi NOIR */
+                --send-button-text: #ffffff;
+                /* Fleche BLANCHE */
+                --header-title-color: #ECF0F1;
+
+                --color-sidebar: rgba(56, 101, 113, 0.509);
+                /* Couleur de la flèche pour le thème sombre (inverse du bouton: blanc) */
+                --arrow-color-filter: invert(1);
+                /* NOUVELLE VARIABLE: Couleur pour le bouton Stop (thème sombre) */
+                --stop-button-color: #3cbce7;
+                --file: #6ccaf5;
+                /* Rouge */
+            }
+        }
+        /* Styles globaux */
+        
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            font-weight: 300;
+            background-color: var(--body-bg-start);
+            background-image: linear-gradient(180deg, var(--body-bg-start) 0%, var(--body-bg-end) 100%);
+            color: var(--text-color-primary);
+            overflow: hidden;
+            display: block;
+            animation: gradientBackground 20s ease infinite alternate;
+        }
+        
+
+
+        
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @supports (height: 100dvh) {
+            html,
+            body {
+                height: 100dvh;
+            }
+        }
+        /* Conteneur principal (Liquid Glass) - AJOUT des propriétés 3D pour la parallaxe */
+        
+        #app-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            bottom: 20px;
+            left: 320px;
+            display: flex;
+            flex-direction: column;
+            background: var(--glass-bg);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            border-radius: 34px;
+            box-shadow: 0 20px 45px var(--glass-shadow), inset 0 0 18px var(--glass-inner-shadow);
+            overflow: hidden;
+            box-sizing: border-box;
+            transition: box-shadow 0.3s ease;
+        }
+        
+
+        /* Header */
+        
+        #chat-header {
+            /* Changement de padding pour deux lignes de contenu */
+            padding: 25px 30px 25px;
+            background: transparent;
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInDown 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+            /* Changement : Utilisation de Flexbox pour une disposition en colonne */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ------------------------------------------------------------- */
+        /* NOUVEAU: Conteneur de contrôles pour les boutons */
+        /* ------------------------------------------------------------- */
+        
+        #header-controls {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            /* Espace entre les boutons et le titre */
+        }
+        /* ------------------------------------------------------------- */
+        /* NOUVEAU: Style des boutons (sans position: absolute) */
+        /* ------------------------------------------------------------- */
+        
+        .header-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--header-title-color);
+            font-size: 1.6em;
+            padding: 5px 10px;
+            /* Padding ajusté */
+            z-index: 11;
+            transition: color 0.3s ease, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Suppression des propriétés de positionnement absolu */
+            position: static;
+            transform: none;
+        }
+        
+        #home-button:hover {
+            color: var(--message-user-bg);
+            transform: scale(1.3);
+        }
+        
+        #home-button img {
+            width: 28px;
+            height: 28px;
+            filter: var(--arrow-color-filter);
+            transition: filter 0.3s ease;
+        }
+        
+        #home-button:hover img {}
+        /* Bouton Stop pour l'interruption */
+        
+        #stop-button {
+            background-color: var(--stop-button-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: 500;
+            display: none;
+            transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s;
+            align-items: center;
+            gap: 5px;
+            /* Suppression des propriétés de positionnement absolu */
+            position: static;
+            transform: none;
+        }
+        
+        #stop-button:hover {
+            background-color: #C0392B;
+            transform: scale(1.05);
+        }
+
+        .header-profile {
+            position: relative;
+            margin-left: auto;
+        }
+
+        .header-profile-pic {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .header-profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: 46px;
+            min-width: 170px;
+            display: none;
+            flex-direction: column;
+            background: var(--glass-bg);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+            z-index: 30;
+        }
+
+        .header-profile-dropdown a,
+        .header-profile-dropdown button {
+            border: none;
+            background: transparent;
+            color: var(--text-color-primary);
+            text-decoration: none;
+            text-align: left;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .header-profile-dropdown a:hover,
+        .header-profile-dropdown button:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+        /* ------------------------------------------------------------- */
+        /* FIN NOUVEAU STYLE BOUTONS */
+        /* ------------------------------------------------------------- */
+        
+        #chat-header-content {
+            /* Conteneur pour centrer le titre */
+            text-align: center;
+            width: 100%;
+        }
+        
+        #chat-header h1 {
+            font-size: 3.8em;
+            margin: 0;
+            font-weight: 700;
+            color: var(--header-title-color);
+            letter-spacing: -0.05em;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+        }
+        
+        #chat-header small {
+            font-size: 1.05em;
+            color: var(--text-color-secondary);
+            display: block;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+        /* Conteneur des messages */
+        
+        #chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px 18px;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+        /* Scrollbar élégante (inchangée) */
+        
+        #chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #chat-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        #chat-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        #chat-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            #chat-container::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            #chat-container::-webkit-scrollbar-thumb:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+        }
+        /* Styles des bulles de message */
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 16px 25px;
+            max-width: 85%;
+            word-wrap: break-word;
+            /* Laisser la gestion de 'white-space' au JS */
+            font-size: 1.08em;
+            line-height: 1.6;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            font-weight: 300;
+            position: relative;
+            transition: all 0.3s ease-out;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInMessage 0.4s ease-out forwards;
+        }
+        
+        @keyframes fadeInMessage {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+        
+        .message:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+        
+        .message:nth-child(3) {
+            animation-delay: 0.7s;
+        }
+        /* Message Utilisateur (long) */
+        
+        .user {
+            margin-left: auto;
+            background-color: var(--message-user-bg);
+            color: var(--bubble-user-text);
+            border-top-left-radius: var(--bubble-radius-outer);
+            border-top-right-radius: var(--bubble-radius-outer);
+            border-bottom-left-radius: var(--bubble-radius-outer);
+            border-bottom-right-radius: var(--bubble-radius-inner);
+        }
+        
+        .user:hover {
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.807);
+        }
+        /* Message Gemini (long) - Fait pour mieux contraster avec le logo de chargement */
+        
+        .gemini {
+            margin-right: auto;
+            background-color: var(--message-gemini-bg);
+            /* COULEUR DE FOND PLUS FONCÉE POUR GEMINI */
+            color: var(--bubble-gemini-text);
+            border: 1px solid var(--input-border);
+            border-top-left-radius: var(--bubble-radius-outer);
+            border-top-right-radius: var(--bubble-radius-outer);
+            border-bottom-left-radius: var(--bubble-radius-inner);
+            border-bottom-right-radius: var(--bubble-radius-outer);
+        }
+        
+        .gemini:hover {
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.807);
+        }
+        /* NOUVEAU: Conteneur d'actions pour la bulle Gemini */
+        
+        .gemini-actions {
+            position: absolute;
+            /* Positionnement par rapport au message */
+            bottom: -5px;
+            right: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+        
+        .gemini:hover .gemini-actions {
+            opacity: 1;
+        }
+        
+        .copy-button {
+            background: var(--text-color-secondary);
+            /* Gris clair pour le bouton */
+            border: none;
+            color: var(--send-button-bg);
+            /* Inverse de la couleur du bouton d'envoi (blanc/noir) */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s ease, transform 0.1s;
+        }
+        
+        .copy-button:hover {
+            /* Couleur d'accentuation */
+            transform: scale(1.1);
+            box-shadow: #000000 0px 4px 12px;
+        }
+        
+        .copy-button img {
+            /* Style pour l'image du bouton copier */
+            width: 60%;
+            /* Ajuste la taille de l'image à l'intérieur du bouton */
+            height: 60%;
+            filter: invert(1);
+            /* Pour une icône blanche sur fond gris */
+        }
+        
+        .copy-button:hover img {
+            /* Noir sur fond couleur d'accentuation */
+        }
+        /* STYLE PILULE POUR LES MESSAGES COURTS */
+        
+        .pill-message {
+            max-width: fit-content;
+            border-radius: 50px;
+            /* Priorité maximale pour la forme pilule */
+            padding: 12px 25px;
+            /* Ajuster un peu le padding vertical */
+        }
+        
+        .pill-message .gemini-actions {
+            /* Ajustement pour les messages pilules */
+            bottom: -5px;
+            right: 0px;
+        }
+        /* Zone d'input (bas de l'écran) */
+        
+        #input-area {
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            background: transparent;
+            padding: 20px 18px;
+            border-top: 1px solid var(--glass-border);
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+        }
+        /* Conteneur de l'input - Surbrillance faible */
+        
+        #input-container {
+            display: flex;
+            align-items: flex-end;
+            background-color: var(--input-bg);
+            /* UTILISATION DE LA ZONE DE SAISIE PLUS FONCÉE */
+            border: 1px solid var(--input-border);
+            border-radius: 50px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(84, 84, 84, 0.848);
+            transition: all 0.4s ease;
+        }
+        
+        #input-container:focus-within {
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.737);
+            border-color: var(--input-border);
+            /* Garde la bordure neutre */
+        }
+        /* NOUVEAU: Styles pour la nouvelle fonctionnalité d'upload de fichier */
+        
+        #file-upload-area {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            /* Espace à gauche de l'input */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 13px;
+        }
+        
+        #file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            /* Plus petit pour ne pas prendre trop de place */
+            height: 35px;
+            border-radius: 50%;
+            color: var(--text-color-secondary);
+            /* Couleur de base */
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s;
+        }
+        
+        #file-label:hover {
+            color: var(--file);
+            /* Couleur d'accentuation au survol */
+            transform: scale(1.1);
+        }
+        
+        #file-label img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            border-radius: 50%;
+            filter: var(--arrow-color-filter);
+            /* Gère la couleur noir/blanc inverse */
+            transition: transform 0.2s ease-out, filter 0.2s ease;
+        }
+        /* Style lorsque qu'un fichier est sélectionné */
+        
+        .file-selected #file-label {
+            color: #27AE60;
+            /* Vert pour indiquer le succès/sélection */
+        }
+        /* Conteneur pour le statut du fichier */
+        
+        #file-status-container {
+            font-size: 0.9em;
+            color: var(--text-color-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0px 20px 5px 20px;
+            /* Ajustement du padding */
+            transition: opacity 0.3s ease;
+            min-height: 1.5em;
+            /* Assure un espace minimal */
+            opacity: 0;
+            /* Caché par défaut */
+        }
+        
+        .show-file-status {
+            opacity: 1 !important;
+        }
+        
+        #remove-file-button {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            color: #E74C3C;
+            /* Rouge pour supprimer */
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 0;
+            line-height: 1;
+            transition: transform 0.2s;
+            font-weight: 700;
+        }
+        
+        #remove-file-button:hover {
+            transform: scale(1.1);
+        }
+        /* Input/Textarea */
+        
+        #user-input {
+            flex-grow: 1;
+            /* IMPORTANT: Réduction du padding gauche pour faire de la place au bouton d'upload */
+            padding: 15px 10px 0px 15px;
+            border: none;
+            background: transparent;
+            color: var(--text-color-primary);
+            outline: none;
+            font-size: 1.1em;
+            resize: none;
+            overflow-y: hidden;
+            min-height: 30px;
+            max-height: 180px;
+            font-weight: 300;
+            line-height: 1.5;
+            transition: all 0.3s ease-out;
+        }
+        
+        #user-input::placeholder {
+            color: var(--text-color-secondary);
+            font-weight: 300;
+        }
+        /* Bouton d'envoi */
+        
+        #send-button {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background-color: var(--send-button-bg);
+            /* BLANC/NOIR */
+            color: var(--send-button-text);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.2s ease-out, box-shadow 0.3s ease, opacity 0.3s;
+            flex-shrink: 0;
+            margin-left: 15px;
+            font-size: 1.3em;
+            box-shadow: 3px 6px 15px var(--glass-shadow);
+            /* OMBRE PLUS MARQUÉE PAR DÉFAUT */
+            padding: 0;
+            margin-bottom: 8px;
+            margin-right: 5px;
+        }
+        
+        #send-button img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            border-radius: 50%;
+            filter: var(--arrow-color-filter);
+            /* Gère la couleur noir/blanc inverse */
+            transition: transform 0.2s ease-out, filter 0.2s ease;
+        }
+        
+        #send-button:hover:not(:disabled) {
+            /* Inverse la couleur au survol */
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.815);
+            /* OMBRE PLUS MARQUÉE AU HOVER */
+        }
+        
+        #send-button:hover:not(:disabled) img {
+            filter: var(--send-button-bg);
+            /* Inverse la couleur de la flèche au survol */
+        }
+        
+        #send-button:disabled {
+            background-color: var(--send-button-bg);
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: #343434 2px 4px 4px;
+        }
+        
+        #send-button {
+            opacity: 0;
+            transform: scale(0.8);
+            animation: scaleIn 0.3s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        /* SPINNER DE CHARGEMENT (Couleur dynamique grâce à --send-button-bg) */
+        
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 32px;
+            height: 20px;
+            margin-right: 12px;
+            vertical-align: middle;
+        }
+        
+        .loading-spinner span {
+            width: 4px;
+            height: 100%;
+            /* La couleur dépend du bouton pour un meilleur contraste */
+            background-color: var(--send-button-text);
+            border-radius: 2px;
+            animation: bounce 1.2s ease-in-out infinite alternate;
+        }
+        
+        .loading-spinner span:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loading-spinner span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-spinner span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes bounce {
+            0% {
+                transform: scaleY(0.1);
+            }
+            100% {
+                transform: scaleY(1);
+            }
+        }
+        /* 💥 Media Queries pour Mobile 💥 */
+        
+        @media (max-width: 768px) {
+            #app-container {
+                top: 14px;
+                right: 14px;
+                bottom: 14px;
+                left: 224px;
+                border-radius: 26px;
+                box-shadow: 0 15px 30px var(--glass-shadow);
+            }
+            #chat-header {
+                padding: 15px 15px 15px;
+                /* Padding réduit sur mobile */
+            }
+            #chat-header h1 {
+                font-size: 3em;
+            }
+            #chat-header small {
+                font-size: 0.95em;
+            }
+            #header-controls {
+                margin-bottom: 10px;
+                /* Espace réduit sur mobile */
+            }
+            #input-area {
+                padding: 15px 12px;
+                padding-bottom: calc(15px + env(safe-area-inset-bottom));
+            }
+            .message {
+                padding: 14px 20px;
+                font-size: 1em;
+                max-width: 90%;
+            }
+            #send-button {
+                width: 42px;
+                height: 42px;
+            }
+            #send-button img {
+                width: 65%;
+                height: 65%;
+            }
+            /* Les boutons utilisent maintenant le Flexbox et n'ont plus besoin de positions absolues ajustées */
+        }
+        
+        .glow-line {
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffcc, #ffcc00, #ff00cc);
+            z-index: 9999;
+        }
+        
+        .glow-line::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: inherit;
+            -webkit-filter: blur(15px);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        /* ===============================
+   SIDEBAR CHATGPT STYLE
+================================ */
+
+.sidebar {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    width: 280px;
+    height: auto;
+    background: var(--color-sidebar);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    z-index: 2000;
+    transform: none;
+    transition: box-shadow 0.3s ease;
+    overflow-y: auto;
+
+    border: 1px solid var(--glass-border);
+    border-radius: 32px;
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+}
+
+.sidebar.open {
+    transform: none;
+}
+
+.logo {
+    color: var(--text-color-primary);
+    margin-bottom: 20px;
+    font-size: 1.4em;
+}
+
+.new-chat-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 50px;
+    border: 1px solid var(--text-color-primary);
+    cursor: pointer;
+    background: var(--message-user-bg);
+    color: var(--text-color-primary);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+#history-list button {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--text-color-primary);
+    text-align: left;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+#history-list button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* ===============================
+   MENU BUTTON
+================================ */
+
+.menu-toggle {
+    display: none;
+}
+
+@media (max-width: 980px) {
+    .sidebar {
+        width: 240px;
+        top: 14px;
+        left: 14px;
+        bottom: 14px;
+        border-radius: 24px;
+        padding: 20px;
+    }
+
+    #app-container {
+        left: 268px;
+        top: 14px;
+        right: 14px;
+        bottom: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 190px;
+    }
+}
+
+/* ===============================
+   CHAT PLEIN ÉCRAN
+================================ */
+
+
+
+/* ton chat */
+#chatContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    padding: 70px 15px 90px;
+    overflow-y: auto;
+}
+
+
+        /* ========================================================================= */
+        /* === FIN DES MODIFICATIONS MAJEURES DANS LE BLOC <style> === */
+        /* ========================================================================= */
+    </style>
+</head>
+
+<body>
+
+<!-- 📚 Sidebar -->
+<nav class="sidebar">
+    <h2 class="logo">💬 Discussions</h2>
+
+    <button class="new-chat-btn" onclick="window.location.href='index.html'">
+       Accueil
+    </button>
+
+    <button class="new-chat-btn" onclick="newConversation()">
+        ➕ Nouvelle discussion
+    </button>
+
+    <div id="history-list"></div>
+</nav>
+
+
+    
+
+
+    <div id="app-container">
+        <div id="chat-header">
+            <div id="header-controls">
+                <button id="stop-button">
+                    <i class="fas fa-stop-circle"></i> Stop
+                </button>
+
+                <div class="header-profile" id="headerProfileContainer">
+                    <img src="pdp.png" alt="Profil" class="header-profile-pic" id="headerProfilePic">
+                    <div class="header-profile-dropdown" id="headerProfileDropdown">
+                        <a href="compte.html">Compte</a>
+                        <button type="button" id="headerLogoutBtn">Déconnexion</button>
+                    </div>
+                </div>
+            </div>
+            <div id="chat-header-content">
+                <h1 id="dynamic-title">Morgann Music AI</h1>
+                <small>L’intelligence au service de ton imagination.</small>
+            </div>
+        </div>
+
+        <div id="chat-container">
+            <div class="message gemini pill-message">
+                Salut 👋 Je suis Morgann Music AI !
+                <div class="gemini-actions">
+                    <button class="copy-button" title="Copier la réponse" onclick="copyMessageText(this)">
+                        <img src="https://cdn-icons-png.flaticon.com/512/54/54702.png" alt="Copier" />
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="input-area">
+            <div id="file-status-container">
+            </div>
+
+            <div id="input-container">
+
+                <div id="file-upload-area">
+
+                    <label for="file-input" id="file-label" title="Joindre un fichier">
+                        <i class="fas fa-paperclip"></i>
+                    </label>
+                    <input type="file" id="file-input" accept="audio/*, .mp3, .wav, .flac, .m4a, .mid, .png, .svg, .jpg, .heif, .mov, .mp4" style="display: none;">
+
+                </div>
+
+                <textarea id="user-input" placeholder="Posez une question à Morgann Music AI !" aria-label="Message utilisateur" rows="1"></textarea>
+                <button id="send-button" disabled>
+                    <img src="https://images.icon-icons.com/936/PNG/512/arrow-up-on-a-black-circle-background_icon-icons.com_73668.png" alt="Envoyer" />
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    onSnapshot,
+    doc,
+    deleteDoc,
+    updateDoc,
+        getDoc,
+    limit
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+  // ✅ Ton Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAMoFF5b09eiSeQQ_BhSbclmGj3S6zAGXE",
+    authDomain: "morgann-music-ai.firebaseapp.com",
+    projectId: "morgann-music-ai",
+    storageBucket: "morgann-music-ai.firebasestorage.app",
+    messagingSenderId: "817825197478",
+    appId: "1:817825197478:web:05f7a630b27b1fe8f17367",
+    measurementId: "G-0Q8PTSJTY0"
+  };
+
+  const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // UI
+  const sidebar = document.querySelector(".sidebar");
+  const historyList = document.getElementById("history-list");
+  const menuToggle = document.getElementById("menu-toggle");
+
+  const chatContainer = document.getElementById("chat-container");
+  const textarea = document.getElementById("user-input");
+  const sendBtn = document.getElementById("send-button");
+    const headerProfileContainer = document.getElementById("headerProfileContainer");
+    const headerProfilePic = document.getElementById("headerProfilePic");
+    const headerProfileDropdown = document.getElementById("headerProfileDropdown");
+    const headerLogoutBtn = document.getElementById("headerLogoutBtn");
+
+  menuToggle?.addEventListener("click", () => {
+    sidebar?.classList.toggle("open");
+  });
+
+    headerProfilePic?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!headerProfileDropdown) return;
+        headerProfileDropdown.style.display = headerProfileDropdown.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!headerProfileContainer || !headerProfileDropdown) return;
+        if (!headerProfileContainer.contains(e.target)) {
+            headerProfileDropdown.style.display = "none";
+        }
+    });
+
+    headerLogoutBtn?.addEventListener("click", async () => {
+        try {
+            await signOut(auth);
+            window.location.href = "login.html";
+        } catch {
+            headerProfileDropdown.style.display = "none";
+        }
+    });
+
+  // State
+  let currentUser = null;
+    let currentConversationId = null;
+  let unsubMessages = null; // pour arrêter l'écoute quand on change de conv
+    let unsubConversations = null;
+    const GUEST_LIMIT = 4;
+
+    function setCurrentConversationId(conversationId) {
+        currentConversationId = conversationId || null;
+    }
+
+  // ---------- UI helpers ----------
+  function clearChatUIKeepGreeting() {
+    // garde seulement le premier message "Salut 👋..."
+    const first = chatContainer.querySelector(".message");
+    chatContainer.innerHTML = "";
+    if (first) chatContainer.appendChild(first);
+  }
+
+  function renderMessage(role, text) {
+    const div = document.createElement("div");
+    div.className = "message " + (role === "user" ? "user" : "gemini");
+
+        if (role === "user") {
+            div.textContent = text;
+        } else {
+            div.innerHTML = (window.marked && typeof window.marked.parse === "function")
+                ? window.marked.parse(text || "")
+                : (text || "");
+
+            const actionsDiv = document.createElement("div");
+            actionsDiv.className = "gemini-actions";
+
+            const copyButton = document.createElement("button");
+            copyButton.className = "copy-button";
+            copyButton.title = "Copier la réponse";
+            copyButton.innerHTML = '<img src="https://cdn-icons-png.flaticon.com/512/54/54702.png" alt="Copier" />';
+            copyButton.onclick = () => window.copyMessageText?.(copyButton);
+
+            actionsDiv.appendChild(copyButton);
+            div.appendChild(actionsDiv);
+        }
+
+    chatContainer.appendChild(div);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+    function deriveConversationTitle(text) {
+        const cleanText = (text || "").replace(/\s+/g, " ").trim();
+        if (!cleanText) return "Nouvelle discussion";
+        return cleanText.length > 60 ? `${cleanText.slice(0, 57)}…` : cleanText;
+    }
+
+    async function maybeSetConversationTitleFromFirstUserMessage(text) {
+        if (!currentUser || !currentConversationId) return;
+
+        const convRef = doc(db, "users", currentUser.uid, "conversations", currentConversationId);
+        const convSnap = await getDoc(convRef);
+        if (!convSnap.exists()) return;
+
+        const convData = convSnap.data() || {};
+        if (convData.customTitle === true || convData.autoTitleSet === true) return;
+
+        await updateDoc(convRef, {
+            title: deriveConversationTitle(text),
+            autoTitleSet: true,
+            updatedAt: serverTimestamp()
+        });
+    }
+
+  function setSendEnabled() {
+    const hasText = textarea.value.trim().length > 0;
+    sendBtn.disabled = !hasText;
+  }
+
+  textarea?.addEventListener("input", setSendEnabled);
+  setSendEnabled();
+
+    // ---------- Auth guard ----------
+    let authReadyResolve;
+    let authReadyResolved = false;
+    const authReady = new Promise((resolve) => {
+        authReadyResolve = resolve;
+    });
+
+    function resolveAuthReadyOnce() {
+        if (authReadyResolved) return;
+        authReadyResolved = true;
+        authReadyResolve();
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            currentUser = null;
+            if (headerProfileContainer) headerProfileContainer.style.display = "none";
+            setCurrentConversationId(null);
+            clearChatUIKeepGreeting();
+
+            if (typeof unsubConversations === "function") {
+                unsubConversations();
+                unsubConversations = null;
+            }
+            if (typeof unsubMessages === "function") {
+                unsubMessages();
+                unsubMessages = null;
+            }
+
+            if (historyList) {
+                historyList.innerHTML = "";
+                const hint = document.createElement("div");
+                hint.textContent = `Mode invité : ${GUEST_LIMIT} messages maximum sans compte.`;
+                hint.style.opacity = "0.85";
+                hint.style.padding = "8px 2px";
+                historyList.appendChild(hint);
+            }
+
+            resolveAuthReadyOnce();
+            return;
+        }
+
+        currentUser = user;
+        if (headerProfileContainer) headerProfileContainer.style.display = "block";
+
+        setCurrentConversationId(null);
+        clearChatUIKeepGreeting();
+        loadConversations();
+        await window.newConversation();
+
+        resolveAuthReadyOnce();
+    });
+
+  // ---------- Conversations list ----------
+  function loadConversations() {
+        if (typeof unsubConversations === "function") unsubConversations();
+
+    const q = query(
+      collection(db, "users", currentUser.uid, "conversations"),
+      orderBy("updatedAt", "desc")
+    );
+
+        unsubConversations = onSnapshot(q, (snapshot) => {
+      historyList.innerHTML = "";
+
+            if (snapshot.empty) {
+                const empty = document.createElement("div");
+                empty.textContent = "Aucune discussion pour le moment.";
+                empty.style.opacity = "0.8";
+                empty.style.padding = "8px 2px";
+                historyList.appendChild(empty);
+            }
+
+            let selectedStillExists = false;
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const convId = docSnap.id;
+                if (convId === currentConversationId) selectedStillExists = true;
+
+        const row = document.createElement("div");
+        row.className = "history-item";
+        row.style.display = "flex";
+        row.style.alignItems = "center";
+        row.style.justifyContent = "space-between";
+        row.style.gap = "10px";
+
+                const title = document.createElement("span");
+        title.textContent = data.title || "Discussion";
+        title.style.cursor = "pointer";
+        title.style.fontWeight = convId === currentConversationId ? "700" : "500";
+        title.onclick = () => openConversation(convId);
+
+                const actions = document.createElement("div");
+                actions.style.display = "flex";
+                actions.style.alignItems = "center";
+                actions.style.gap = "6px";
+
+                const rename = document.createElement("button");
+                rename.textContent = "✏️";
+                rename.style.cursor = "pointer";
+                rename.title = "Renommer";
+                rename.onclick = async (e) => {
+                    e.stopPropagation();
+                    if (row.querySelector("input[data-rename='true']")) return;
+
+                    const currentTitle = (data.title || "Discussion").trim();
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.value = currentTitle;
+                    input.setAttribute("data-rename", "true");
+                    input.maxLength = 120;
+                    input.style.flex = "1";
+                    input.style.minWidth = "0";
+                    input.style.border = "1px solid rgba(255,255,255,0.35)";
+                    input.style.background = "rgba(0,0,0,0.15)";
+                    input.style.color = "var(--text-color-primary)";
+                    input.style.borderRadius = "8px";
+                    input.style.padding = "6px 8px";
+                    input.style.fontSize = "14px";
+
+                    const oldTitle = title.textContent;
+                    title.replaceWith(input);
+                    input.focus();
+                    input.select();
+
+                    const restoreTitle = () => {
+                        input.replaceWith(title);
+                        title.textContent = oldTitle || "Discussion";
+                    };
+
+                    const saveTitle = async () => {
+                        const newTitle = input.value.trim();
+                        if (!newTitle) {
+                            restoreTitle();
+                            return;
+                        }
+
+                        await updateDoc(doc(db, "users", currentUser.uid, "conversations", convId), {
+                            title: newTitle,
+                            customTitle: true,
+                            updatedAt: serverTimestamp()
+                        });
+                    };
+
+                    input.addEventListener("keydown", async (evt) => {
+                        if (evt.key === "Enter") {
+                            evt.preventDefault();
+                            await saveTitle();
+                        }
+                        if (evt.key === "Escape") {
+                            evt.preventDefault();
+                            restoreTitle();
+                        }
+                    });
+
+                    input.addEventListener("blur", async () => {
+                        if (!row.contains(input)) return;
+                        await saveTitle();
+                    });
+                };
+
+        const del = document.createElement("button");
+        del.textContent = "❌";
+        del.style.cursor = "pointer";
+        del.onclick = async (e) => {
+          e.stopPropagation();
+          await deleteDoc(doc(db, "users", currentUser.uid, "conversations", convId));
+
+          // si on supprime la conv courante
+          if (currentConversationId === convId) {
+                        setCurrentConversationId(null);
+            clearChatUIKeepGreeting();
+                        if (typeof unsubMessages === "function") {
+                            unsubMessages();
+                            unsubMessages = null;
+                        }
+          }
+        };
+
+                actions.appendChild(rename);
+                actions.appendChild(del);
+
+                row.appendChild(title);
+                row.appendChild(actions);
+        historyList.appendChild(row);
+      });
+
+            if (currentConversationId && !selectedStillExists) {
+                setCurrentConversationId(null);
+                clearChatUIKeepGreeting();
+                if (typeof unsubMessages === "function") {
+                    unsubMessages();
+                    unsubMessages = null;
+                }
+            }
+    });
+  }
+
+  // ---------- Create / Open conversation ----------
+  window.newConversation = async function newConversation() {
+        if (!currentUser) return null;
+
+    const docRef = await addDoc(
+      collection(db, "users", currentUser.uid, "conversations"),
+      {
+        title: "Nouvelle discussion",
+                customTitle: false,
+                autoTitleSet: false,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      }
+    );
+
+        openConversation(docRef.id); // ✅ ouvre direct
+        return docRef.id;
+  };
+
+    async function openConversation(conversationId) {
+        if (!currentUser || !conversationId) return;
+
+        const convRef = doc(db, "users", currentUser.uid, "conversations", conversationId);
+        const convSnap = await getDoc(convRef);
+        if (!convSnap.exists()) {
+            setCurrentConversationId(null);
+            clearChatUIKeepGreeting();
+            return;
+        }
+
+        setCurrentConversationId(conversationId);
+
+    // stop l'écoute précédente
+    if (typeof unsubMessages === "function") unsubMessages();
+
+    // UI reset
+    clearChatUIKeepGreeting();
+
+    // live messages
+    const msgsRef = collection(db, "users", currentUser.uid, "conversations", conversationId, "messages");
+    const q = query(msgsRef, orderBy("createdAt", "asc"), limit(200));
+
+    unsubMessages = onSnapshot(q, (snap) => {
+      clearChatUIKeepGreeting();
+      snap.forEach((d) => {
+        const m = d.data();
+        renderMessage(m.role, m.text);
+      });
+    });
+  }
+
+  // ---------- Save message ----------
+  async function saveMessage(role, text) {
+        if (!currentUser) return;
+
+    if (!currentConversationId) {
+      await window.newConversation();
+    }
+
+    await addDoc(
+      collection(db, "users", currentUser.uid, "conversations", currentConversationId, "messages"),
+      {
+        role,
+        text,
+        createdAt: serverTimestamp()
+      }
+    );
+
+        if (role === "user") {
+            await maybeSetConversationTitleFromFirstUserMessage(text);
+        }
+
+    // update updatedAt
+    await updateDoc(
+      doc(db, "users", currentUser.uid, "conversations", currentConversationId),
+      { updatedAt: serverTimestamp() }
+    );
+  }
+
+// Expose des helpers au script normal
+window.mmaiReady = authReady;
+window.mmaiIsAuthenticated = () => !!currentUser;
+
+window.mmaiEnsureConversation = async () => {
+  await window.mmaiReady;                 // attend que currentUser soit prêt
+    if (!currentUser) return null;
+  if (!currentConversationId) {
+    await window.newConversation();       // crée et ouvre une conv
+  }
+  return currentConversationId;
+};
+
+window.mmaiSaveMessage = async (role, text) => {
+  await window.mmaiReady;
+    if (!currentUser) return null;
+  return saveMessage(role, text);
+};
+</script>
+
+   <script>
+       
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const appContainer = document.getElementById('app-container');
+        const dynamicTitle = document.getElementById('dynamic-title');
+        // NOUVEAU: Référence au bouton Stop
+        const stopButton = document.getElementById('stop-button');
+
+        // Nouveaux éléments DOM pour les fichiers
+        const fileInput = document.getElementById('file-input');
+        const fileStatusContainer = document.getElementById('file-status-container');
+        const inputContainer = document.getElementById('input-container');
+
+        // Variables de l'application
+        let selectedFile = null;
+        const MAX_FILE_SIZE_MB = 10; // Limite de taille pour la démo / Apps Script.
+        // NOUVEAU: Variable pour le contrôleur d'interruption
+        let abortController = null;
+
+        // 💥💥💥 VOTRE URL DE DÉPLOIEMENT APPS SCRIPT OU WORKER ICI 💥💥💥
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUl1yRykXKGo_g6fphPxWGm-q4zk0eGK2-3uvhvZK16uMnHUxm79HTHlMp_kSPlPfk/exec';
+
+        // --- Ajustement automatique de la hauteur du textarea ---
+        function adjustTextareaHeight() {
+            userInput.style.height = 'auto';
+            userInput.style.height = userInput.scrollHeight + 'px';
+            // Le bouton est activé si le texte n'est pas vide OU si un fichier est sélectionné
+            sendButton.disabled = userInput.value.trim() === '' && !selectedFile;
+        }
+
+        // --- Fonctions de Chat ---
+        function displayMessage(text, sender, isHtml = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + sender;
+
+            if (isHtml) {
+                messageDiv.innerHTML = text;
+            } else {
+                messageDiv.textContent = text;
+            }
+
+            // Logique Pilule : Vérification si c'est un message d'une seule ligne
+            if (sender !== 'loading' && text.length < 50 && !text.includes('\n')) {
+                messageDiv.classList.add('pill-message');
+            }
+
+            // NOUVEAU: Ajout du bouton de copie pour les messages Gemini
+            if (sender === 'gemini') {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'gemini-actions';
+                const copyButton = document.createElement('button');
+                copyButton.className = 'copy-button';
+                copyButton.title = 'Copier la réponse';
+                // Utilise l'image de l'icône
+                copyButton.innerHTML = '<img src="https://cdn-icons-png.flaticon.com/512/54/54702.png" alt="Copier" />';
+                copyButton.onclick = () => copyMessageText(copyButton);
+                actionsDiv.appendChild(copyButton);
+                messageDiv.appendChild(actionsDiv);
+            }
+
+            chatContainer.appendChild(messageDiv);
+            // Assure que le message est bien visible
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        // -----------------------------------------------------------
+        // --- NOUVELLE FONCTION: Copier le texte du message ---
+        // -----------------------------------------------------------
+        function copyMessageText(buttonElement) {
+            // Remonte au parent .message
+            const messageDiv = buttonElement.closest('.message');
+            // Le texte à copier est le content de la div (sans les actions)
+            let textToCopy = messageDiv.textContent.trim();
+
+            // Retirer le texte d'état du bouton "Stop" si la réponse a été interrompue
+            if (messageDiv.getAttribute('data-interrupted') === 'true') {
+                textToCopy = textToCopy.replace('[Interrompu par l\'utilisateur]', '').trim();
+            }
+
+            // Utilise l'API du presse-papiers
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    const originalIcon = buttonElement.innerHTML;
+                    const originalTitle = buttonElement.title;
+                    // Utilise une icône de Font Awesome pour le succès si l'icône de base est une image.
+                    // Ou bien, si vous avez une image pour le succès:
+                    // buttonElement.innerHTML = '<img src="URL_ICONE_SUCCES" alt="Copié!" />';
+                    buttonElement.innerHTML = '<i class="fas fa-check"></i>'; // Icône de succès
+                    buttonElement.title = 'Copié !';
+                    // Revenir à l'icône originale après 2 secondes
+                    setTimeout(() => {
+                        buttonElement.innerHTML = originalIcon;
+                        buttonElement.title = originalTitle;
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Erreur de copie:', err);
+                    alert("Échec de la copie. Veuillez sélectionner le texte manuellement.");
+                });
+        }
+        // Expose la fonction au scope global pour les boutons onclick
+        window.copyMessageText = copyMessageText;
+
+
+        // -----------------------------------------------------------
+        // --- NOUVELLE FONCTION: Interrompre la requête (fetch) ---
+        // -----------------------------------------------------------
+        function abortRequest() {
+            if (abortController) {
+                abortController.abort();
+                stopButton.style.display = 'none'; // Cacher le bouton Stop
+                const lastMessage = chatContainer.lastChild;
+                if (lastMessage && lastMessage.classList.contains('gemini')) {
+                    // Retirer le spinner
+                    lastMessage.innerHTML = lastMessage.innerHTML.replace(/<div class="loading-spinner">.*?<\/div>/s, '');
+                    // Marquer l'interruption
+                    lastMessage.innerHTML = 'Réponse Interrompue. ' + lastMessage.innerHTML + ' <span style="color:var(--stop-button-color);font-weight:700;">[Interrompu par l\'utilisateur]</span>';
+                    lastMessage.setAttribute('data-interrupted', 'true');
+                    // Retirer la classe pill-message si elle existe (pour ajuster le style)
+                    lastMessage.classList.remove('pill-message');
+                }
+                // Réactiver l'UI
+                userInput.disabled = false;
+                sendButton.disabled = userInput.value.trim() === '' && !selectedFile;
+                userInput.focus();
+                abortController = null;
+            }
+        }
+        stopButton.addEventListener('click', abortRequest);
+
+
+        // -----------------------------------------------------------
+        // --- FONCTIONS DE GESTION DES FICHIERS (INCHANGÉES) ---
+        // -----------------------------------------------------------
+
+        function updateFileStatusUI() {
+            fileStatusContainer.innerHTML = '';
+
+            if (selectedFile) {
+                // Afficher le nom du fichier
+                fileStatusContainer.classList.add('show-file-status');
+                inputContainer.classList.add('file-selected');
+
+                const fileSizeDisplay = (selectedFile.size / 1024 / 1024).toFixed(2);
+                const fileNameSpan = document.createElement('span');
+                fileNameSpan.textContent = `📎 ${selectedFile.name} (${fileSizeDisplay} Mo)`;
+                fileNameSpan.style.fontWeight = '500';
+                fileStatusContainer.appendChild(fileNameSpan);
+
+                // Bouton de suppression
+                const removeButton = document.createElement('button');
+                removeButton.id = 'remove-file-button';
+                removeButton.innerHTML = '<i class="fas fa-times-circle"></i>';
+                removeButton.title = 'Supprimer le fichier';
+                removeButton.addEventListener('click', clearFileSelection);
+                fileStatusContainer.appendChild(removeButton);
+
+            } else {
+                fileStatusContainer.classList.remove('show-file-status');
+                inputContainer.classList.remove('file-selected');
+                // Nettoyer l'espace après la transition
+                setTimeout(() => {
+                    if (!selectedFile) fileStatusContainer.innerHTML = '';
+                }, 300);
+            }
+        }
+
+        function clearFileSelection() {
+            selectedFile = null;
+            fileInput.value = ''; // Réinitialiser l'input file
+            updateFileStatusUI();
+            adjustTextareaHeight(); // Mettre à jour l'état du bouton d'envoi
+        }
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+
+            if (file) {
+                const fileSizeMB = file.size / (1024 * 1024);
+
+                if (fileSizeMB > MAX_FILE_SIZE_MB) {
+                    displayMessage(`Le fichier est trop volumineux (${fileSizeMB.toFixed(2)} Mo). Taille maximale pour l'analyse : ${MAX_FILE_SIZE_MB} Mo.`, 'gemini');
+                    clearFileSelection();
+                    return;
+                }
+
+                selectedFile = file;
+                updateFileStatusUI();
+                adjustTextareaHeight(); // Assure que le bouton est activé
+                userInput.focus();
+
+            } else {
+                clearFileSelection();
+            }
+        });
+
+        // -----------------------------------------------------------
+        // --- Fonction principale d'envoi (MISE À JOUR) ---
+        // -----------------------------------------------------------
+        function askForAuthAfterGuestLimit() {
+            const wantsSignup = window.confirm(
+                "Tu as atteint la limite de 4 messages en mode invité.\n\nClique sur OK pour créer un compte, ou Annuler pour te connecter."
+            );
+            window.location.href = wantsSignup ? "login.html?mode=signup" : "login.html?mode=login";
+        }
+
+        function canGuestSendMessage() {
+            const isAuthenticated = typeof window.mmaiIsAuthenticated === 'function' && window.mmaiIsAuthenticated();
+            if (isAuthenticated) return true;
+
+            const used = Number(localStorage.getItem('guestMessageCount') || '0');
+            if (used >= 4) {
+                askForAuthAfterGuestLimit();
+                return false;
+            }
+            return true;
+        }
+
+        function incrementGuestMessageCountIfNeeded() {
+            const isAuthenticated = typeof window.mmaiIsAuthenticated === 'function' && window.mmaiIsAuthenticated();
+            if (isAuthenticated) return;
+            const used = Number(localStorage.getItem('guestMessageCount') || '0');
+            localStorage.setItem('guestMessageCount', String(used + 1));
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message && !selectedFile) return;
+            if (!canGuestSendMessage()) return;
+
+            // NOUVEAU: Créer un contrôleur d'interruption pour cette requête
+            abortController = new AbortController();
+            const signal = abortController.signal;
+
+            // 1. Afficher le message utilisateur (avec le fichier si présent)
+            let userDisplayMessage = message;
+            if (selectedFile) {
+                userDisplayMessage += (message ? '\n\n' : '') + `[Fichier joint: ${selectedFile.name}]`;
+            }
+
+            displayMessage(userDisplayMessage, 'user');
+            incrementGuestMessageCountIfNeeded();
+
+            await window.mmaiEnsureConversation();
+await window.mmaiSaveMessage("user", userDisplayMessage);
+
+            // 2. Préparer les données et l'UI pour l'envoi
+            const currentFile = selectedFile; // Garder une référence locale
+            userInput.value = '';
+            adjustTextareaHeight();
+            sendButton.disabled = true;
+            userInput.disabled = true; // Désactiver l'input pendant le chargement
+            stopButton.style.display = 'inline-block'; // Afficher le bouton Stop
+
+            // Afficher le spinner de chargement
+            const loadingSpinnerHtml = `
+                <div class="loading-spinner">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            const loadingText = `${loadingSpinnerHtml}Morgann Music AI réfléchit. Promis, ça arrive 😁`;
+            const loadingMessage = displayMessage(loadingText, 'gemini', true);
+            loadingMessage.classList.add('pill-message');
+
+
+            try {
+                let apiBody = `prompt=${encodeURIComponent(message)}`;
+
+                if (currentFile) {
+                    const base64Data = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = error => reject(error);
+                        reader.readAsDataURL(currentFile);
+                    });
+
+                    apiBody += `&filename=${encodeURIComponent(currentFile.name)}`;
+                    apiBody += `&mimeType=${encodeURIComponent(currentFile.type || 'application/octet-stream')}`;
+                    apiBody += `&base64Data=${base64Data}`;
+
+                    // Le fichier est consommé, on vide la sélection UI
+                    clearFileSelection();
+                }
+
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: apiBody,
+                    signal: signal // NOUVEAU: Ajout du signal d'interruption
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Retirer le message de chargement
+                chatContainer.removeChild(loadingMessage);
+
+                // Afficher la réponse
+                const htmlResponse = marked.parse(data.response);
+displayMessage(htmlResponse, 'gemini', true);
+
+await window.mmaiSaveMessage("assistant", data.response);
+
+
+            } catch (error) {
+                // Gestion de l'interruption
+                if (error.name === 'AbortError') {
+                    console.log("Requête interrompue par l'utilisateur.");
+                    // L'interruption est gérée dans la fonction abortRequest pour la mise à jour de l'UI
+                } else {
+                    console.error('Erreur lors de l\'envoi:', error);
+                    let errorMessage = 'Désolé, une erreur est survenue lors de la communication avec l\'IA.';
+                    if (error.message.includes('HTTP')) {
+                        errorMessage = `Erreur de connexion : ${error.message}`;
+                    }
+                    if (error.message.includes('timeout')) {
+                        errorMessage = `La requête a expiré. Veuillez réessayer.`;
+                    }
+
+                    // Retirer ou mettre à jour le message de chargement avec l'erreur
+                    if (chatContainer.contains(loadingMessage)) {
+                        loadingMessage.innerHTML = `⚠️ ${errorMessage}`;
+                        loadingMessage.classList.remove('pill-message');
+                    } else {
+                        // S'il a déjà été retiré pour une autre raison (peu probable), l'afficher
+                        displayMessage(errorMessage, 'gemini');
+                    }
+
+                }
+            } finally {
+                // 3. Réinitialisation finale de l'UI
+                stopButton.style.display = 'none';
+                userInput.disabled = false;
+                sendButton.disabled = userInput.value.trim() === '' && !selectedFile;
+                userInput.focus();
+                abortController = null; // Nettoyer le contrôleur pour la prochaine requête
+            }
+        }
+
+        // --- Écouteurs d'événements (Inchangés) ---
+        userInput.addEventListener('input', adjustTextareaHeight);
+        userInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+        sendButton.addEventListener('click', sendMessage);
+
+        // --- Initialisation ---
+        window.addEventListener('load', () => {
+            adjustTextareaHeight();
+            userInput.focus();
+        });
+
+        // Interface statique : pas d'effet parallaxe.
+    </script>
+
+    
+
+</body>
+</html>

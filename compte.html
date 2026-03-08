@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Morgann Music AI — Mon compte</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --card-radius: 28px;
+      --line: rgba(0,0,0,.2);
+      --ok: #33d69f;
+      --bad: #ff4d6d;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --line: rgba(255,255,255,.22);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 100px 20px 24px;
+      color: var(--txt);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background-image: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg1) 100%);
+      background-color: var(--bg1);
+    }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--card-radius);
+      padding: 18px;
+      background: rgba(255,255,255,.12);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 14px 32px rgba(0,0,0,.2);
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      opacity: .85;
+      font-size: .95rem;
+    }
+
+    .rows {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(0,0,0,.08);
+    }
+
+    .k {
+      font-weight: 600;
+      opacity: .9;
+    }
+
+    .v {
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: .92rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .btn {
+      border: 1px solid var(--txt);
+      background: transparent;
+      color: var(--txt);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: var(--txt);
+      color: var(--bg1);
+    }
+
+    .status {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,.08);
+      font-size: .92rem;
+      min-height: 42px;
+    }
+
+    .status.ok { border-color: var(--ok); }
+    .status.bad { border-color: var(--bad); }
+
+    @media (max-width: 640px) {
+      .row { grid-template-columns: 1fr; }
+      .k { font-size: .88rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar" id="navbar">
+    <nav>
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo.png" alt="Mon Logo" id="logo-dynamique">
+        </a>
+      </div>
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+      <ul id="nav-links">
+        <li><a href="index.html">Menu</a></li>
+        <li><a href="download.html">Télécharger</a></li>
+        <li><a href="ia.html">IA</a></li>
+        <li><a href="https://app.morgannmusic.uk">Site Principal</a></li>
+        <li><a href="compte.html">Compte</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="card">
+      <h1 class="title">Mon compte</h1>
+      <p class="subtitle">Informations du compte connecté.</p>
+
+      <div class="rows">
+        <div class="row"><div class="k">Email</div><div class="v" id="infoEmail">—</div></div>
+        <div class="row"><div class="k">UID</div><div class="v" id="infoUid">—</div></div>
+        <div class="row"><div class="k">Fournisseur</div><div class="v" id="infoProvider">—</div></div>
+        <div class="row"><div class="k">Compte créé</div><div class="v" id="infoCreated">—</div></div>
+        <div class="row"><div class="k">Dernière connexion</div><div class="v" id="infoLastLogin">—</div></div>
+      </div>
+
+      <div class="actions">
+        <button id="resetPasswordBtn" class="btn" type="button">Réinitialiser le mot de passe</button>
+        <button id="logoutBtn" class="btn primary" type="button">Se déconnecter</button>
+      </div>
+
+      <div class="status" id="statusBox">Chargement du compte…</div>
+    </section>
+  </main>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar?.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    menuToggle?.addEventListener('click', () => navLinks?.classList.toggle('active'));
+
+    const logo = document.getElementById('logo-dynamique');
+    const logoClair = 'logo.png';
+    const logoSombre = 'logo2.png';
+
+    function setLogoBasedOnScheme() {
+      if (!logo) return;
+      logo.src = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ? logoSombre
+        : logoClair;
+    }
+    setLogoBasedOnScheme();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setLogoBasedOnScheme);
+  </script>
+
+  <script type="module">
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js';
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut,
+      sendPasswordResetEmail
+    } from 'https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAMoFF5b09eiSeQQ_BhSbclmGj3S6zAGXE',
+      authDomain: 'morgann-music-ai.firebaseapp.com',
+      projectId: 'morgann-music-ai',
+      storageBucket: 'morgann-music-ai.firebasestorage.app',
+      messagingSenderId: '817825197478',
+      appId: '1:817825197478:web:05f7a630b27b1fe8f17367',
+      measurementId: 'G-0Q8PTSJTY0'
+    };
+
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const infoEmail = document.getElementById('infoEmail');
+    const infoUid = document.getElementById('infoUid');
+    const infoProvider = document.getElementById('infoProvider');
+    const infoCreated = document.getElementById('infoCreated');
+    const infoLastLogin = document.getElementById('infoLastLogin');
+    const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const statusBox = document.getElementById('statusBox');
+
+    function fmtDate(value) {
+      if (!value) return '—';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '—';
+      return new Intl.DateTimeFormat('fr-FR', {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }).format(date);
+    }
+
+    function setStatus(kind, text) {
+      if (!statusBox) return;
+      statusBox.classList.remove('ok', 'bad');
+      if (kind) statusBox.classList.add(kind);
+      statusBox.textContent = text;
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const provider = (user.providerData || [])
+        .map((providerInfo) => providerInfo.providerId)
+        .join(', ') || 'email/password';
+
+      infoEmail.textContent = user.email || '—';
+      infoUid.textContent = user.uid || '—';
+      infoProvider.textContent = provider;
+      infoCreated.textContent = fmtDate(user.metadata?.creationTime);
+      infoLastLogin.textContent = fmtDate(user.metadata?.lastSignInTime);
+      setStatus('ok', 'Compte chargé avec succès.');
+    });
+
+    resetPasswordBtn?.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      const email = user?.email;
+
+      if (!email) {
+        setStatus('bad', 'Aucune adresse email trouvée pour ce compte.');
+        return;
+      }
+
+      resetPasswordBtn.disabled = true;
+      try {
+        await sendPasswordResetEmail(auth, email);
+        setStatus('ok', 'Email de réinitialisation envoyé. Vérifie ta boîte mail.');
+      } catch (error) {
+        setStatus('bad', 'Impossible d’envoyer l’email de réinitialisation.');
+      } finally {
+        resetPasswordBtn.disabled = false;
+      }
+    });
+
+    logoutBtn?.addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        window.location.href = 'login.html';
+      } catch {
+        setStatus('bad', 'Déconnexion impossible pour le moment.');
+      }
+    });
+  </script>
+</body>
+</html>

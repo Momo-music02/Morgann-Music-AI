@@ -1,0 +1,466 @@
+:root {
+    --bg1: #59DAF5;
+    --bg2: #30b3c5;
+    --txt: #000000;
+    --bg3: #278e9c57;
+    --navbar-height: 64px;
+
+}
+
+@media (prefers-color-scheme: dark) {
+     :root {
+            --bg1: #346e7f;
+            --bg2: #0e3e45;
+        --txt: #ffffff;
+                --bg3: #16454f6c;
+
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background-image: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 55%, var(--bg1) 100%);
+    background-color: var(--bg1);
+    /* ✅ Fond uniforme */
+    color: var(--txt);
+    line-height: 1.6;
+}
+
+.simple-separator {
+    height: 0.5px;
+    /* Épaisseur de la barre */
+    background-color: #15849fd4;
+    /* Couleur grise neutre et unie */
+    margin: 50px auto;
+    /* 50px de marge verticale, 'auto' pour centrer horizontalement */
+    width: 90%;
+    /* La barre prendra 70% de la largeur de la page */
+    max-width: 1200px;
+    /* Empêche la barre d'être trop large sur de très grands écrans */
+    min-width: 200px;
+    /* Empêche la barre d'être trop petite sur de petits écrans */
+    border-radius: 2px;
+    /* Un léger arrondi aux coins */
+    /* J'ai retiré toutes les propriétés liées au texte, dégradé, flexbox, et ombre prononcée. */
+}
+
+
+/* ===== NAVBAR ===== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    -webkit-backdrop-filter: blur(10px);
+    transition: 0.5s all;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.navbar:hover {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+}
+
+.navbar.scrolled {
+    background: var(--nbscr);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+    border-top-right-radius: 0;
+    /* Coin supérieur droit */
+    border-bottom-left-radius: 45px;
+    /* Coin inférieur gauche arrondi */
+    border-bottom-right-radius: 45px;
+}
+
+.navbar.scrolled:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
+    border-top-left-radius: 0;
+    /* Coin supérieur gauche */
+    border-top-right-radius: 0;
+    /* Coin supérieur droit */
+    border-bottom-left-radius: 15px;
+    /* Coin inférieur gauche arrondi */
+    border-bottom-right-radius: 15px;
+}
+
+.navbar nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: var(--navbar-height);
+    padding: 8px 24px;
+}
+
+.navbar .logo img {
+    height: 34px;
+    width: auto;
+    user-select: none;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: var(--txt);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar ul li a:hover {
+    opacity: 0.7;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-auth-link {
+    text-decoration: none;
+    color: var(--txt);
+    border: 1px solid var(--txt);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    line-height: 1;
+    transition: 0.25s;
+}
+
+.nav-auth-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 1;
+}
+
+.navbar .menu-toggle {
+    display: none;
+    font-size: 1.8em;
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .navbar .menu-toggle {
+        display: block;
+        /* FIX: Assure que le bouton est visible sur mobile */
+        position: relative;
+        z-index: 9999;
+        color: var(--text-color3);
+        /* Assure que le bouton est au-dessus de tout pour être cliquable */
+    }
+    .navbar ul {
+        /* Menu mobile réduit sur le côté */
+        position: absolute;
+        top: var(--navbar-height);
+        right: 0;
+        width: 200px;
+        /* Largeur réduite pour le menu latéral */
+        background: var(--bg3);
+        color: #992a99;
+        /* J'ai gardé votre couleur ajustée */
+        flex-direction: column;
+        align-items: flex-start;
+        -webkit-backdrop-filter: blur(10px);
+        padding: 15px;
+        /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
+        display: flex;
+        visibility: hidden;
+        /* Cache le menu */
+        pointer-events: none;
+        /* TRÈS IMPORTANT: Empêche le menu masqué de bloquer le clic sur le bouton */
+        border-radius: 40px;
+        /* J'ai gardé votre rayon de bordure ajusté */
+        transition: 0.4s all;
+        transform: translateX(100%);
+        /* Masque le menu à droite (hors de vue) */
+    }
+        .navbar ul:hover {
+            border-radius: 0 0 0 40px;
+        }
+
+    .navbar ul.active {
+        visibility: visible;
+        /* Révèle le menu */
+        pointer-events: all;
+        /* Permet d'interagir avec le menu */
+        transform: translateX(0);
+        /* Révèle le menu */
+    }
+    .navbar ul li {
+        width: 100%;
+        margin: 10px 0;
+    }
+    .navbar ul li a:hover {
+        text-decoration: underline;
+    }
+
+    .auth-buttons {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .nav-auth-link {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar nav {
+        min-height: 56px;
+        padding: 8px 16px;
+    }
+}
+.profile-container {
+    position: relative;
+    list-style: none;
+    margin-left: 15px;
+}
+
+.profile-pic {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+}
+
+.profile-pic:hover {
+    border-color: #7c5cff;
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 44px;
+    background: #10182a;
+    border: 1px solid #24314f;
+    border-radius: 12px;
+    display: none;
+    flex-direction: column;
+    min-width: 160px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+    padding: 10px 14px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: #e7ecff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+    background: rgba(124,92,255,0.2);
+}
+
+
+main {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    margin-top: 80px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    /* espace entre les boutons */
+    margin-bottom: 30px;
+    /* espace avec le bouton voir plus */
+}
+
+.btn {
+    background-color: var(--txt);
+    border: 2px solid #e780aa;
+    color: var(--bg2);
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.8s;
+    box-shadow: 0 0 10px transparent;
+    min-width: 150px;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.btn:hover {
+    background-color: var(--text-color-btn);
+    box-shadow: 0 0 15px var(--txt);
+    border: 2px solid var(--txt);
+    transform: translateY(-2px);
+    color: #ffffff;
+    align-items: center;
+}
+
+h3 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+p {
+    font-size: 1.0em;
+    text-align: left;
+}
+
+.p2 {
+    margin-top: 20px;
+    font-size: 1.0em;
+}
+
+.p3 {
+    font-size: 1.0em;
+    text-align: left;
+    margin-left: 70px;
+}
+
+.p4 {
+    font-size: 0.7em;
+    text-align: left;
+}
+
+.intro {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+footer {
+    margin-top: 60px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+h1 {
+    font-size: 1.9em;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-top: 60px;
+}
+
+.code {
+    color: #1c8000;
+    font-size: 1.2em;
+    text-align: left;
+}
+
+.code1 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    text-align: left;
+    color: #1c8000;
+}
+
+.code3 {
+    margin-bottom: 20px;
+    text-align: left;
+    color: #1c8000;
+    margin-left: 25px;
+}
+
+.tips {
+    font-size: 1.1em;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.tips-titre {
+    font-size: 1.5em;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 50px;
+}
+
+.code code {
+    color: #38761d;
+    /* Une nuance de vert pour le texte du code */
+    font-family: 'Consolas', 'Monaco', monospace;
+    /* Utiliser une police de code */
+    /* Espacement de ligne pour la lisibilité */
+    /* S'assure que le contenu prend tout l'espace */
+}
+
+.titre-m-g {
+    font-size: 1.0em;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-top: 65px;
+}
+
+.quatre-balise {
+    font-size: 1.2em;
+    text-align: left;
+    color: #1c8000;
+}
+
+.quatre-explication {
+    margin-top: 0%;
+    margin-bottom: 45px;
+}
+
+li {
+    text-align: left;
+}
+
+.glow-line {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffcc, #ffcc00, #ff00cc);
+    z-index: 9999;
+}
+
+.glow-line::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    background: inherit;
+    filter: blur(15px);
+    opacity: 0.9;
+    pointer-events: none;
+}
