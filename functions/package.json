@@ -1,0 +1,16 @@
+{
+  "name": "morgannmusic-ai-functions",
+  "description": "Fonctions cloud pour Morgann Music AI",
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.7.0",
+    "firebase-functions": "^7.2.0",
+    "node-fetch": "^3.3.2"
+  },
+  "scripts": {
+    "lint": "echo \"No linting configured.\""
+  }
+}

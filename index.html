@@ -31,7 +31,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
+  <div id="maintenance-popup" style="position:fixed;z-index:99999;top:0;left:0;width:100vw;height:100vh;background:rgba(30,40,60,0.97);display:flex;align-items:center;justify-content:center;flex-direction:column;color:#fff;font-family:inherit;font-size:1.2rem;backdrop-filter:blur(2px);">
+    <div style="background:#222b38;padding:2.5em 2em 2em 2em;border-radius:18px;box-shadow:0 8px 32px #0008;max-width:90vw;text-align:center;">
+      <h2 style="margin-bottom:0.7em;font-size:2em;">🚧 Problème technique</h2>
+      <p style="margin-bottom:1.5em;">Le site est temporairement fermé pour cause de maintenance.<br>Merci de revenir plus tard.</p>
+      <button id="dev-access-btn" style="margin-top:1em;padding:0.7em 1.5em;font-size:1.1em;border-radius:8px;border:none;background:#59daf5;color:#222b38;cursor:pointer;font-weight:bold;">Accès développement</button>
+      <div id="dev-code-container" style="display:none;margin-top:1.2em;">
+        <input id="dev-code-input" type="password" placeholder="Code d'accès" style="padding:0.6em 1em;font-size:1em;border-radius:6px;border:1px solid #59daf5;outline:none;">
+        <button id="dev-code-submit" style="margin-left:0.5em;padding:0.6em 1.2em;font-size:1em;border-radius:6px;border:none;background:#59daf5;color:#222b38;cursor:pointer;font-weight:bold;">Valider</button>
+        <div id="dev-code-error" style="color:#ff6b6b;margin-top:0.7em;font-size:1em;display:none;">Code incorrect</div>
+      </div>
+    </div>
+  </div>
 
         <header class="navbar" id="navbar">
         <nav>
@@ -110,6 +123,36 @@
 </body>
 
 <script>
+    // Blocage du site avec pop-up maintenance
+    (function() {
+      const popup = document.getElementById('maintenance-popup');
+      const devBtn = document.getElementById('dev-access-btn');
+      const codeContainer = document.getElementById('dev-code-container');
+      const codeInput = document.getElementById('dev-code-input');
+      const codeSubmit = document.getElementById('dev-code-submit');
+      const codeError = document.getElementById('dev-code-error');
+      let unlocked = false;
+      devBtn.addEventListener('click', () => {
+        codeContainer.style.display = 'block';
+        codeInput.focus();
+      });
+      codeSubmit.addEventListener('click', tryCode);
+      codeInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') tryCode();
+      });
+      function tryCode() {
+        if (codeInput.value === '1213') {
+          unlocked = true;
+          popup.style.display = 'none';
+          document.body.style.overflow = '';
+        } else {
+          codeError.style.display = 'block';
+          setTimeout(() => { codeError.style.display = 'none'; }, 2000);
+        }
+      }
+      // Empêche le scroll et interaction avec le site tant que le popup est là
+      document.body.style.overflow = 'hidden';
+    })();
   // Logo dynamique (safe)
   const logo = document.getElementById('logo-dynamique');
   const logoClair = "logo.png";
