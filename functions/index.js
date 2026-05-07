@@ -34,8 +34,18 @@ exports.chatAI = functions.https.onRequest(async (req, res) => {
       })
     });
     const geminiData = await geminiRes.json();
-    const response = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 'Aucune réponse.';
-    res.json({ response });
+    const raw = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 'Aucune réponse.';
+    let response = raw;
+    let title = undefined;
+    // Essayer de parser un JSON pour extraire response et title
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed.response) response = parsed.response;
+      if (parsed.title) title = parsed.title;
+    } catch (e) {
+      // Si ce n'est pas du JSON, on laisse la réponse brute
+    }
+    res.json(title ? { response, title } : { response });
   } catch (err) {
     res.status(500).json({ error: 'Erreur IA: ' + err.message });
   }

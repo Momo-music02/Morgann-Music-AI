@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructions IA</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; min-height: 100vh; margin: 0; background: var(--bg1); color: var(--txt); }
+    .main { flex: 1; display: flex; flex-direction: column; background: transparent; }
+    .header { padding: 18px 24px; border-bottom: 1px solid #e0e7ef; background: #fff; font-size: 1.2em; font-weight: bold; color: var(--primary, #2d6ea8); }
+    .context-list { padding: 24px; }
+    .context-item { background: var(--bubble-ai, #edf5ff); border: 1px solid #cfe7ff; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .context-item span { flex: 1; }
+    .context-item button { margin-left: 10px; background: #eee; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 1em; }
+    .context-item button:hover { background: #e0e7ef; }
+    .add-context { margin: 24px; display: flex; gap: 10px; }
+    .add-context input { flex: 1; padding: 10px; border-radius: 30px; border: 1px solid #cfe7ff; font-size: 1em; background: #fff; color: var(--txt); }
+    .add-context button { padding: 10px 22px; border-radius: 30px; border: none; background: var(--primary, #2d6ea8); color: #fff; font-weight: bold; cursor: pointer; font-size: 1em; box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+    .add-context button:hover { background: #1b4e7a; }
+    .sidebar { width: 260px; background: var(--sidebar, #e7f2ff); border-right: 1px solid #cfe7ff; display: flex; flex-direction: column; flex-shrink: 0; }
+    .logo { font-size: 1.5em; font-weight: bold; color: var(--primary, #2d6ea8); padding: 24px; text-align: center; }
+    .convos { flex: 1; overflow-y: auto; padding: 10px 0; }
+    .convo-item { padding: 14px 20px; border: none; background: transparent; text-align: left; width: 100%; font-size: 0.9em; cursor: pointer; border-bottom: 1px solid #dce8f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; color: #444; transition: 0.2s; }
+    .convo-item:hover { background: #dce8f5; }
+    .convo-item.active { background: #fff; font-weight: bold; color: var(--primary, #2d6ea8); }
+    .new-convo { margin: 10px 24px 20px 24px; padding: 12px; border-radius: 22px; background: var(--primary, #2d6ea8); color: #fff; border: none; font-weight: bold; cursor: pointer; }
+    @media (max-width: 768px) { .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">Litual OS</div>
+    <button class="new-convo" onclick="window.location.href='ia.html'">+ Nouveau Chat</button>
+    <div class="convos" id="convoList"></div>
+  </div>
+  <div class="main">
+    <!-- Navbar -->
+    <div class="header">
+      <span>Instructions & Contextes IA</span>
+    </div>
+    <div class="add-context">
+      <input type="text" id="contextInput" placeholder="Ajouter un prompt de contexte...">
+      <button id="addContextBtn">Ajouter</button>
+    </div>
+    <div class="context-list" id="contextList"></div>
+  </div>
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAMoFF5b09eiSeQQ_BhSbclmGj3S6zAGXE",
+      authDomain: "morgann-music-ai.firebaseapp.com",
+      projectId: "morgann-music-ai",
+      storageBucket: "morgann-music-ai.appspot.com",
+      messagingSenderId: "817825197478",
+      appId: "1:817825197478:web:05f7a630b27b1fe8f17367"
+    };
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // Sidebar conversations
+    const convoList = document.getElementById("convoList");
+    async function loadSidebar() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const activeId = urlParams.get('id');
+      const q = query(collection(db, "conversations"), orderBy("lastUpdate", "desc"), limit(20));
+      onSnapshot(q, (snap) => {
+        convoList.innerHTML = "";
+        snap.forEach((d) => {
+          const btn = document.createElement("button");
+          btn.className = "convo-item" + (activeId === d.id ? " active" : "");
+          btn.textContent = d.data().title || "Discussion " + d.id.substring(0, 5);
+          btn.onclick = () => window.location.href = `ia.html?id=${d.id}`;
+          convoList.appendChild(btn);
+        });
+      });
+    }
+
+    // Auth anonyme obligatoire avant tout accès Firestore
+    async function ensureAuth() {
+      await new Promise((resolve) => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) resolve();
+          else signInAnonymously(auth).then(resolve);
+        });
+      });
+    }
+
+    const contextList = document.getElementById('contextList');
+    const contextInput = document.getElementById('contextInput');
+    const addContextBtn = document.getElementById('addContextBtn');
+
+    function renderContexts(contexts) {
+      contextList.innerHTML = "";
+      contexts.forEach(ctx => {
+        const div = document.createElement('div');
+        div.className = 'context-item';
+        div.innerHTML = `<span>${ctx.text}</span><button data-id="${ctx.id}">🗑️</button>`;
+        div.querySelector('button').onclick = async () => {
+          await deleteDoc(doc(db, 'contexts', ctx.id));
+        };
+        contextList.appendChild(div);
+      });
+    }
+
+    function loadContexts() {
+      const q = query(collection(db, 'contexts'));
+      onSnapshot(q, (snap) => {
+        const contexts = [];
+        snap.forEach(d => contexts.push({ id: d.id, ...d.data() }));
+        renderContexts(contexts);
+      });
+    }
+
+    (async () => {
+      await ensureAuth();
+      loadSidebar();
+      loadContexts();
+      addContextBtn.onclick = async () => {
+        const text = contextInput.value.trim();
+        if (!text) return;
+        await addDoc(collection(db, 'contexts'), { text });
+        contextInput.value = '';
+      };
+    })();
+  </script>
+</body>
+</html>
