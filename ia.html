@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Litual OS Chat</title>
+  <title>Litual AI Chat</title>
+  <meta name="theme-color" content="#fff5cf">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #2d6ea8;
-      --bg: #f4f9ff;
-      --sidebar: #e7f2ff;
-      --bubble-user: #d6ebff;
-      --bubble-ai: #edf5ff;
+      --primary: #e2a9f1;
+      --bg: #fffcf1;
+      --sidebar: #fff5cf;
+      --bubble-user: #edd6f2;
+      --bubble-ai: #fcf0ff;
       --radius: 22px;
       --shadow: 0 2px 16px rgba(0,0,0,0.07);
     }
@@ -23,44 +24,58 @@
     }
     body { display: flex; }
     
-    /* SIDEBAR */
     .sidebar {
-      width: 260px; background: var(--sidebar); border-right: 1px solid #cfe7ff;
+      width: 280px; background: var(--sidebar); border-right: 1px solid var(--primary);
       display: flex; flex-direction: column; flex-shrink: 0;
     }
     .logo { font-size: 1.5em; font-weight: bold; color: var(--primary); padding: 24px; text-align: center; }
     .convos { flex: 1; overflow-y: auto; padding: 10px 0; }
+    
+    .convo-item-wrapper { position: relative; margin-bottom: 2px; }
     .convo-item {
-      padding: 14px 20px; border: none; background: transparent; text-align: left;
+      padding: 14px 45px 14px 20px; border: none; background: transparent; text-align: left;
       width: 100%; font-size: 0.9em; cursor: pointer; border-bottom: 1px solid #dce8f5;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
       color: #444; transition: 0.2s;
     }
     .convo-item:hover { background: #dce8f5; }
     .convo-item.active { background: #fff; font-weight: bold; color: var(--primary); }
+    
+    .convo-actions {
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      display: none; gap: 5px;
+    }
+    .convo-item-wrapper:hover .convo-actions { display: flex; }
+    .convo-actions button {
+      background: none; border: none; color: #888; cursor: pointer; font-size: 0.85em; padding: 5px;
+    }
+    .convo-actions button:hover { color: var(--primary); }
+
     .new-convo {
       margin: 10px 24px 20px 24px; padding: 12px; border-radius: var(--radius);
       background: var(--primary); color: #fff; border: none; font-weight: bold; cursor: pointer;
     }
 
-    /* MAIN */
     .main { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100vh; position: relative; }
     .header {
       display: flex; align-items: center; gap: 12px;
-      padding: 15px 24px; border-bottom: 1px solid #e0e7ef; background: #fff;
+      padding: 15px 24px; border-bottom: 1px solid var(--primary); background: var(--sidebar);
     }
-    .header .title { font-size: 1.2em; font-weight: bold; color: var(--primary); flex: 1; }
-    .header .actions { display: flex; gap: 8px; }
-    .header .actions button { background: #eee; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 0.95em; }
-    .header .actions button:hover { background: #e0e7ef; }
+    .header .title { font-size: 1.2em; font-weight: bold; color: var(--primary); flex: 1; display: flex; align-items: center; gap: 10px; }
+    
     .chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; padding-bottom: 110px; }
     
+    table { border-collapse: collapse; width: 100%; margin: 10px 0; background: #fff; border-radius: 8px; overflow: hidden; }
+    th, td { border: 1px solid #e2a9f1; padding: 10px; text-align: left; }
+    th { background: #fcf0ff; color: var(--primary); }
+
     .bubble {
-      max-width: 80%; padding: 12px 18px; border-radius: var(--radius);
-      font-size: 1.05em; line-height: 1.5; box-shadow: 0 1px 4px rgba(0,0,0,0.05); word-break: break-word;
+      max-width: 85%; padding: 12px 18px; border-radius: var(--radius);
+      font-size: 1.05em; line-height: 1.5; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      word-wrap: break-word;
     }
-    .bubble.user { align-self: flex-end; background: var(--bubble-user); color: #222; border-bottom-right-radius: 4px; }
-    .bubble.ai { align-self: flex-start; background: var(--bubble-ai); color: #222; border-bottom-left-radius: 4px; border: 1px solid #e0e7ef; }
+    .bubble.user { align-self: flex-end; background: var(--bubble-user); border-bottom-right-radius: 4px; }
+    .bubble.ai { align-self: flex-start; background: var(--bubble-ai); border-bottom-left-radius: 4px; border: 1px solid #e0e7ef; }
 
     .input-container { position: absolute; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; padding: 0 20px; pointer-events: none; }
     .input-area {
@@ -69,10 +84,11 @@
       box-shadow: var(--shadow); pointer-events: auto;
     }
     .input-area textarea { flex: 1; border: none; outline: none; padding: 10px; font-size: 1em; resize: none; background: transparent; max-height: 150px; }
-    .input-area button { background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; }
-    .input-area button:disabled { background: #ccc; }
+    .input-area button { background: var(--primary); color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; transition: 0.1s; }
 
-    @media (max-width: 768px) { .sidebar { display: none; } }
+    #emptyState { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+    .slow-spin { height: 200px; animation: spin 10s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -85,18 +101,22 @@
 
   <div class="main">
     <div class="header">
-      <span class="title" id="chatTitle">Assistant Intelligence</span>
-      <div class="actions">
-        <button id="editTitleBtn" title="Renommer">✏️</button>
-        <button id="deleteConvoBtn" title="Supprimer">🗑️</button>
-      </div>
-      <div style="margin-left:12px;"><img src="pdp.png" id="headerProfilePic" style="width:35px;height:35px;border-radius:50%;object-fit:cover;cursor:pointer;"></div>
+      <span class="title">
+        <a href="/index.html"><img src="o!§ititititt.png" alt="logo" style="height:35px;"></a> 
+        <span id="chatTitle">Assistant</span>
+      </span>
     </div>
-    <div class="chat" id="chat"></div>
+
+    <div class="chat" id="chat">
+        <div id="emptyState">
+            <img src="o!§ititititt.png" class="slow-spin">
+        </div>
+    </div>
+
     <div class="input-container">
       <div class="input-area">
-        <textarea id="userInput" rows="1" placeholder="Demande-moi n'importe quoi..."></textarea>
-        <button id="sendBtn" disabled><i class="fas fa-arrow-up"></i></button>
+        <textarea id="userInput" rows="1" placeholder="Ecris ton message..."></textarea>
+        <button id="sendBtn"><i class="fas fa-arrow-up"></i></button>
       </div>
     </div>
   </div>
@@ -104,9 +124,7 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script type="module">
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-    import {
-      getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs, limit, onSnapshot, doc, setDoc
-    } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, getDocs, limit, onSnapshot, doc, setDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -122,200 +140,138 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    let chatId = urlParams.get('id');
-
-    // Si pas d'id dans l'URL, on crée une nouvelle conversation et on redirige
-    // Suppression de la création automatique de conversation à l'arrivée sur la page
-
+    let chatId = new URLSearchParams(window.location.search).get('id');
     const chatContainer = document.getElementById("chat");
     const userInput = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
-    const convoList = document.getElementById("convoList");
+    const chatTitle = document.getElementById('chatTitle');
+
+    marked.setOptions({ breaks: true, gfm: true });
 
     function renderMessage(role, text) {
+      if (document.getElementById("emptyState")) document.getElementById("emptyState").style.display = "none";
       const div = document.createElement("div");
       div.className = `bubble ${role === "user" ? "user" : "ai"}`;
-      if (role === "ai") {
-        // Rendu markdown pour l'IA
-        div.innerHTML = window.marked ? marked.parse(text) : text;
-      } else {
-        div.textContent = text;
-      }
+      div.innerHTML = role === "user" ? text : marked.parse(text);
       chatContainer.appendChild(div);
       chatContainer.scrollTop = chatContainer.scrollHeight;
+      return div;
     }
 
-    // 1. SIDEBAR : Liste des conversations
-    function loadSidebar() {
-      const q = query(collection(db, "conversations"), orderBy("lastUpdate", "desc"), limit(20));
-      onSnapshot(q, (snap) => {
-        convoList.innerHTML = "";
-        snap.forEach((d) => {
-          const btn = document.createElement("button");
-          btn.className = "convo-item" + (chatId === d.id ? " active" : "");
-          btn.textContent = d.data().title || "Discussion " + d.id.substring(0, 5);
-          btn.onclick = () => window.location.href = `?id=${d.id}`;
-          convoList.appendChild(btn);
-        });
-      });
-    }
-
-    // Affiche le titre de la conversation (ou le premier message si pas de titre)
-    async function updateChatTitle() {
-      if (!chatId) return;
-      const docRef = doc(db, "conversations", chatId);
-      const convoSnap = await getDocs(query(collection(db, "conversations"), orderBy("lastUpdate", "desc"), limit(1)));
-      let title = "Assistant Intelligence";
-      try {
-        const convo = await (await import("https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js")).getDoc(docRef);
-        if (convo.exists() && convo.data().title && convo.data().title !== "...") {
-          title = convo.data().title;
-        } else {
-          // Cherche le premier message utilisateur
-          const q = query(collection(db, "conversations", chatId, "messages"), orderBy("createdAt", "asc"), limit(1));
-          const snap = await getDocs(q);
-          if (!snap.empty) {
-            const firstMsg = snap.docs[0].data().text;
-            title = firstMsg.substring(0, 50);
-          }
-        }
-      } catch {}
-      document.getElementById("chatTitle").textContent = title;
-    }
-
-    // 2. MESSAGES : Historique du chat actuel
-    async function loadHistory() {
-      if (!chatId) return;
-      const q = query(collection(db, "conversations", chatId, "messages"), orderBy("createdAt", "asc"));
-      const snap = await getDocs(q);
-      chatContainer.innerHTML = "";
-      snap.forEach(d => renderMessage(d.data().role, d.data().text));
-      updateChatTitle();
-    }
-
-    // 3. ENVOI
     async function handleSend() {
       const text = userInput.value.trim();
       if (!text) return;
 
-      let isFirstMessage = false;
       if (!chatId) {
-        chatId = "chat_" + Math.random().toString(36).substring(2, 10);
-        isFirstMessage = true;
-        await setDoc(doc(db, "conversations", chatId), { 
-          lastUpdate: serverTimestamp(),
-          title: "..." // Titre temporaire
-        });
+        chatId = "chat_" + Date.now();
+        await setDoc(doc(db, "conversations", chatId), { lastUpdate: serverTimestamp(), title: text.substring(0, 30) });
         window.history.replaceState({}, '', `?id=${chatId}`);
-      } else {
-        await setDoc(doc(db, "conversations", chatId), { lastUpdate: serverTimestamp() }, { merge: true });
       }
 
       renderMessage('user', text);
       userInput.value = '';
-      sendBtn.disabled = true;
+      userInput.style.height = 'auto';
 
-      await addDoc(collection(db, "conversations", chatId, "messages"), {
-        role: "user", text: text, createdAt: serverTimestamp()
+      // On enregistre d'abord le message de l'user
+      await addDoc(collection(db, "conversations", chatId, "messages"), { role: "user", text: text, createdAt: serverTimestamp() });
+
+      // ICI : On récupère tout l'historique pour l'envoyer à l'IA
+      const historySnap = await getDocs(query(collection(db, "conversations", chatId, "messages"), orderBy("createdAt", "asc")));
+      const messagesForAI = [];
+      historySnap.forEach(doc => {
+          messagesForAI.push({
+              role: doc.data().role === "assistant" ? "assistant" : "user",
+              content: doc.data().text
+          });
       });
-
-      const loader = document.createElement("div");
-      loader.className = "bubble ai"; loader.textContent = "Litual AI réfléchit...";
-      chatContainer.appendChild(loader);
 
       try {
-        const q = query(collection(db, "conversations", chatId, "messages"), orderBy("createdAt", "desc"), limit(6));
-        const snap = await getDocs(q);
-        const history = snap.docs.reverse().map(d => ({ role: d.data().role === 'user' ? 'user' : 'assistant', content: d.data().text }));
-
-        let aiText = "";
-        let aiTitle = null;
-        let response;
-        if (isFirstMessage) {
-          // Demander à l'IA de générer le titre et la réponse
-          response = await fetch("https://litual.ai.morgannmusic.uk", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              instruction: "Tu es Litual AI, l'IA de Morgann Rachedi. Morgann Rachedi est compositeur, développeur et entrepreneur a seulement 13. Génère une réponse à ce message et propose un titre de conversation (max 50 caractères, pas de guillemets, pas de ponctuation inutile, pas de phrase complète, juste un titre court et pertinent dans la clé 'title').",
-              messages: history
-            })
-          });
-          const data = await response.json();
-          aiText = data.response || data.reply || "Erreur serveur";
-          aiTitle = data.title;
-          if (aiTitle && aiTitle.length > 50) aiTitle = aiTitle.substring(0, 50);
-          // Mettre à jour le titre dans Firestore
-          await setDoc(doc(db, "conversations", chatId), { title: aiTitle || text.substring(0, 50), lastUpdate: serverTimestamp() }, { merge: true });
-        } else {
-          response = await fetch("https://litual.ai.morgannmusic.uk", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              instruction: "Tu es Litual AI, l'assistant de Morgann Rachedi.",
-              messages: history
-            })
-          });
-          const data = await response.json();
-          aiText = data.response || data.reply || "Erreur serveur";
-        }
-        chatContainer.removeChild(loader);
-        renderMessage('ai', aiText);
-
-        await addDoc(collection(db, "conversations", chatId, "messages"), {
-          role: "assistant", text: aiText, createdAt: serverTimestamp()
+        const response = await fetch("https://litual.ai.morgannmusic.uk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            instruction: "Tu es Litual AI. Tu es une IA amicale et simple. Utilise le Markdown (gras, tableaux, listes). Tu as accès à l'historique de la conversation pour rester cohérent.",
+            messages: messagesForAI // On envoie le tableau complet ici
+          })
         });
+
+        const aiBubble = renderMessage('ai', '...');
+        let fullAiText = "";
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+          for (const line of lines) {
+            if (line.trim().startsWith('data: ')) {
+              try {
+                const json = JSON.parse(line.trim().slice(6));
+                if (json.response) {
+                  fullAiText += json.response;
+                  aiBubble.innerHTML = marked.parse(fullAiText);
+                  chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+              } catch (e) {}
+            }
+          }
+        }
+        await addDoc(collection(db, "conversations", chatId, "messages"), { role: "assistant", text: fullAiText, createdAt: serverTimestamp() });
+        await updateDoc(doc(db, "conversations", chatId), { lastUpdate: serverTimestamp() });
       } catch (err) {
-        if (loader.parentNode) chatContainer.removeChild(loader);
         renderMessage('ai', "Erreur de connexion.");
       }
-      sendBtn.disabled = false;
     }
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      // Authentification anonyme obligatoire pour Firestore
-      await new Promise((resolve) => {
-        onAuthStateChanged(auth, (user) => {
-          if (user) resolve();
-          else signInAnonymously(auth).then(resolve);
-        });
-      });
+    window.deleteConvo = async (id) => {
+        if(confirm("Supprimer ?")) {
+            await deleteDoc(doc(db, "conversations", id));
+            if(chatId === id) window.location.href = window.location.pathname;
+        }
+    };
 
-      // Ne crée plus de conversation automatiquement
-      loadSidebar();
-      if (chatId) loadHistory();
-      // Menu contextuel sur la photo de profil
-      document.getElementById('headerProfilePic').onclick = () => {
-        window.location.href = 'account.html';
-      };
-      // Bouton édition/suppression titre
-      document.getElementById('editTitleBtn').onclick = async () => {
-        const newTitle = prompt('Nouveau titre de la conversation (max 50 caractères) :', document.getElementById('chatTitle').textContent);
-        if (newTitle && newTitle.trim()) {
-          await setDoc(doc(db, "conversations", chatId), { title: newTitle.trim().substring(0, 50), lastUpdate: serverTimestamp() }, { merge: true });
-          updateChatTitle();
-        }
-      };
-      document.getElementById('deleteConvoBtn').onclick = async () => {
-        if (confirm('Supprimer cette conversation ?')) {
-          await setDoc(doc(db, "conversations", chatId), {}, { merge: false });
-          window.location.href = window.location.pathname;
-        }
-      };
-      sendBtn.onclick = handleSend;
-      userInput.oninput = () => sendBtn.disabled = !userInput.value.trim();
-      userInput.onkeydown = (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } };
-      document.getElementById('newConvoBtn').onclick = async () => {
-        // Crée une nouvelle conversation et redirige
-        const newId = "chat_" + Math.random().toString(36).substring(2, 10);
-        await setDoc(doc(db, "conversations", newId), {
-          lastUpdate: serverTimestamp(),
-          title: "..."
-        });
-        window.location.href = window.location.pathname + `?id=${newId}`;
-      };
+    window.renameConvo = async (id) => {
+        const t = prompt("Nouveau nom :");
+        if(t) await updateDoc(doc(db, "conversations", id), { title: t });
+    };
+
+    onAuthStateChanged(auth, (u) => {
+      if (!u) signInAnonymously(auth);
+      else {
+          if (chatId) {
+            getDocs(query(collection(db, "conversations", chatId, "messages"), orderBy("createdAt", "asc"))).then(snap => {
+              chatContainer.innerHTML = "";
+              snap.forEach(d => renderMessage(d.data().role, d.data().text));
+            });
+          }
+          onSnapshot(query(collection(db, "conversations"), orderBy("lastUpdate", "desc"), limit(25)), snap => {
+            const list = document.getElementById("convoList");
+            list.innerHTML = "";
+            snap.forEach(d => {
+              const wrapper = document.createElement("div");
+              wrapper.className = "convo-item-wrapper";
+              wrapper.innerHTML = `
+                <button class="convo-item ${chatId === d.id ? 'active' : ''}" onclick="window.location.href='?id=${d.id}'">
+                    ${d.data().title || "Discussion"}
+                </button>
+                <div class="convo-actions">
+                    <button onclick="renameConvo('${d.id}')"><i class="fas fa-edit"></i></button>
+                    <button onclick="deleteConvo('${d.id}')"><i class="fas fa-trash"></i></button>
+                </div>
+              `;
+              list.appendChild(wrapper);
+              if (chatId === d.id) chatTitle.textContent = d.data().title || "Assistant";
+            });
+          });
+      }
     });
+
+    sendBtn.onclick = handleSend;
+    userInput.onkeydown = (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } };
+    userInput.oninput = () => { userInput.style.height = 'auto'; userInput.style.height = userInput.scrollHeight + 'px'; };
+    document.getElementById('newConvoBtn').onclick = () => window.location.href = window.location.pathname;
   </script>
 </body>
 </html>
