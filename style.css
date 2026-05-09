@@ -1,21 +1,52 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(.4,1.6,.6,1);
+    background-image: linear-gradient(180deg, var(--bg4) 0%, var(--bg5) 55%, var(--bg4) 100%);
+    background-color: var(--bg4);
+}
+
+.body-alt-bg::before {
+    opacity: 1;
+}
+
+.navbar.scrolled-bg {
+    background: #f6dd71ec !important;
+    transition: background 0.7s cubic-bezier(.4,1.6,.6,1);
+}
 :root {
-    --bg1: #59DAF5;
-    --bg2: #30b3c5;
+    --bg1: #c2af59;
+    --bg2: #a278ad;
+       --bg4: #f6dd71;
+    --bg5: #e5adf3;
     --txt: #000000;
     --bg3: #278e9c57;
     --navbar-height: 64px;
+  
+
 
 }
 
-@media (prefers-color-scheme: dark) {
-     :root {
-            --bg1: #346e7f;
-            --bg2: #0e3e45;
-        --txt: #ffffff;
-                --bg3: #16454f6c;
 
-    }
-}
 
 body {
     margin: 0;
@@ -26,7 +57,19 @@ body {
     /* ✅ Fond uniforme */
     color: var(--txt);
     line-height: 1.6;
+    transition: all 0.3s ease;
+    transition: background-image 0.7s cubic-bezier(.4,1.6,.6,1), background-color 0.7s cubic-bezier(.4,1.6,.6,1);
 }
+
+@font-face {
+    font-family: 'Gliker';
+    src: local('Gliker Regular'), local('Gliker-Regular'),
+        url('Gliker-Regular.woff2') format('woff2'),
+        url('Gliker-Regular.woff') format('woff'),
+        url('Gliker-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
 
 .simple-separator {
     height: 0.5px;
@@ -49,45 +92,29 @@ body {
 
 /* ===== NAVBAR ===== */
 
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: transparent;
-    -webkit-backdrop-filter: blur(10px);
-    transition: 0.5s all;
-    z-index: 1000;
-    cursor: pointer;
-}
+
 
 .navbar:hover {
-    background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.567);
-    border-top-left-radius: 0;
-    /* Coin supérieur gauche */
 }
 
 .navbar.scrolled {
-    background: var(--nbscr);
-    backdrop-filter: blur(10px);
+    background: #c2af59ec;
+    backdrop-filter: blur(30px);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.567);
     border-top-left-radius: 0;
     /* Coin supérieur gauche */
     border-top-right-radius: 0;
     /* Coin supérieur droit */
-    border-bottom-left-radius: 45px;
+    border-bottom-left-radius: 25px;
     /* Coin inférieur gauche arrondi */
-    border-bottom-right-radius: 45px;
+    border-bottom-right-radius: 25px;
+    transition: background 0.7s cubic-bezier(.4,1.6,.6,1), box-shadow 0.7s cubic-bezier(.4,1.6,.6,1);
 }
 
 .navbar.scrolled:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background-color: #fff5cf;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.567);
-    border-top-left-radius: 0;
-    /* Coin supérieur gauche */
-    border-top-right-radius: 0;
-    /* Coin supérieur droit */
     border-bottom-left-radius: 15px;
     /* Coin inférieur gauche arrondi */
     border-bottom-right-radius: 15px;
@@ -97,23 +124,27 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: var(--navbar-height);
     min-height: var(--navbar-height);
-    padding: 8px 24px;
+    padding: 0 24px;
+    box-sizing: border-box;
 }
 
 .navbar .logo img {
-    height: 34px;
+    height: 50px;
     width: auto;
     user-select: none;
+    display: block;
+    margin: 0;
+    
 }
 
-.navbar ul {
-    list-style: none;
+
+
+.navbar ul li {
     display: flex;
-    gap: 25px;
-    margin: 0;
-    padding: 0;
     align-items: center;
+    height: var(--navbar-height);
 }
 
 .navbar ul li a {
@@ -122,6 +153,9 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .navbar ul li a:hover {
@@ -151,91 +185,34 @@ body {
     opacity: 1;
 }
 
+
+/* Hamburger menu caché par défaut sur desktop */
 .navbar .menu-toggle {
     display: none;
     font-size: 1.8em;
     background: none;
     border: none;
-    color: rgb(0, 0, 0);
+    color: var(--txt);
     cursor: pointer;
+    z-index: 1100;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: color 0.2s;
+}
+.navbar .menu-toggle:focus {
+    outline: 2px solid var(--bg2);
 }
 
-@media (max-width: 768px) {
-    .navbar .menu-toggle {
-        display: block;
-        /* FIX: Assure que le bouton est visible sur mobile */
-        position: relative;
-        z-index: 9999;
-        color: var(--text-color3);
-        /* Assure que le bouton est au-dessus de tout pour être cliquable */
-    }
-    .navbar ul {
-        /* Menu mobile réduit sur le côté */
-        position: absolute;
-        top: var(--navbar-height);
-        right: 0;
-        width: 200px;
-        /* Largeur réduite pour le menu latéral */
-        background: var(--bg3);
-        color: #992a99;
-        /* J'ai gardé votre couleur ajustée */
-        flex-direction: column;
-        align-items: flex-start;
-        -webkit-backdrop-filter: blur(10px);
-        padding: 15px;
-        /* STRATÉGIE pour la visibilité et éviter le blocage des clics */
-        display: flex;
-        visibility: hidden;
-        /* Cache le menu */
-        pointer-events: none;
-        /* TRÈS IMPORTANT: Empêche le menu masqué de bloquer le clic sur le bouton */
-        border-radius: 40px;
-        /* J'ai gardé votre rayon de bordure ajusté */
-        transition: 0.4s all;
-        transform: translateX(100%);
-        /* Masque le menu à droite (hors de vue) */
-    }
-        .navbar ul:hover {
-            border-radius: 0 0 0 40px;
-        }
+/* Responsive : menu hamburger visible sur mobile */
 
-    .navbar ul.active {
-        visibility: visible;
-        /* Révèle le menu */
-        pointer-events: all;
-        /* Permet d'interagir avec le menu */
-        transform: translateX(0);
-        /* Révèle le menu */
-    }
-    .navbar ul li {
-        width: 100%;
-        margin: 10px 0;
-    }
-    .navbar ul li a:hover {
-        text-decoration: underline;
-    }
 
-    .auth-buttons {
-        width: 100%;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-
-    .nav-auth-link {
-        width: 100%;
-        text-align: center;
-    }
-
-    .navbar nav {
-        min-height: 56px;
-        padding: 8px 16px;
-    }
-}
 .profile-container {
     position: relative;
     list-style: none;
     margin-left: 15px;
+    display: flex;
+    align-items: center;
+    height: var(--navbar-height);
 }
 
 .profile-pic {
@@ -248,15 +225,12 @@ body {
     transition: 0.2s;
 }
 
-.profile-pic:hover {
-    border-color: #7c5cff;
-}
 
 .profile-dropdown {
     position: absolute;
     right: 0;
     top: 44px;
-    background: #10182a;
+    background: #ffffffc8;
     border: 1px solid #24314f;
     border-radius: 12px;
     display: none;
@@ -272,7 +246,7 @@ body {
     text-align: left;
     background: none;
     border: none;
-    color: #e7ecff;
+    color: #ff4036;
     text-decoration: none;
     cursor: pointer;
     font-size: 14px;
@@ -464,3 +438,220 @@ li {
     opacity: 0.9;
     pointer-events: none;
 }
+
+.titre-ia {
+    font-size: 80pt;
+    margin-bottom: 20px;
+    margin-top: 120px;
+    text-align: center;
+    margin-top: 60px;
+    font-family: 'Gliker', sans-serif;
+}
+
+.titre-ia .a {
+    color: #fbde59;
+}
+
+.titre-ia .b {
+    color: #e2a9f1;
+}
+
+/* ===== LE SEUL ET UNIQUE MEDIA QUERY MOBILE ===== */
+@media (max-width: 900px) {
+    .navbar {
+        height: var(--navbar-height) !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar {
+        display: block !important;
+        position: relative;
+        z-index: 3001;
+        background: none;
+        border: none;
+        font-size: 2.2rem;
+        color: var(--txt);
+        cursor: pointer;
+    }
+
+    .navbar ul.active {
+        display: flex;
+    }
+
+    
+
+   .navbar ul {
+        display: none; /* Caché par défaut en mobile */
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--bg4); /* Couleur pleine pour le menu */
+        justify-content: center;
+        align-items: center;
+        z-index: 3000;
+    }
+
+   
+
+    .navbar ul li {
+        width: auto;
+        margin: 15px 0;
+    }
+
+    .navbar ul li a {
+        font-size: 2.2rem;
+        font-family: 'Gliker', sans-serif;
+        padding: 10px 0;
+        display: block;
+    }
+
+    /* On s'assure que le premier lien ne soit pas caché par la navbar fixe */
+    .navbar ul li:first-child {
+        margin-top: 60px;
+    }
+
+    .profile-container, .auth-buttons {
+        margin-left: 0 !important;
+        margin-top: 20px;
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .profile-dropdown {
+        position: static;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        display: block !important;
+    }
+
+    .profile-container {
+        z-index: 3002;
+    }
+
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+    }
+
+ 
+ 
+    #nav-links li {
+        margin: 20px 0;
+    }
+
+    #nav-links li a {
+        font-size: 2rem;
+        font-family: 'Gliker', sans-serif;
+    }
+
+    .auth-buttons-desktop {
+        display: none !important; /* On cache l'auth desktop sur mobile */
+    }
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--navbar-height);
+    background: transparent;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2000;
+    transition: 0.5s all;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+/* Fix pour éviter que la liste déborde sur PC */
+.navbar ul {
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    #nav-links {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: var(--bg4);
+        z-index: 4000;
+
+        /* --- L'ANIMATION DE FERMETURE --- */
+        /* On définit le point de départ (un cercle de 0% en haut à droite) */
+        clip-path: circle(0% at 90% 5%);
+        /* La transition s'applique ici pour le RETOUR (fermeture) */
+        transition: clip-path 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.4s;
+        
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    #nav-links.active {
+        /* --- L'ANIMATION D'OUVERTURE --- */
+        visibility: visible;
+        opacity: 1;
+        /* Le cercle s'agrandit */
+        clip-path: circle(150% at 90% 5%);
+        pointer-events: all;
+        /* Optionnel : tu peux mettre une transition différente à l'aller si tu veux */
+    }
+
+   .menu-toggle {
+        display: block !important;
+        position: relative;
+        z-index: 5000 !important;
+        background: none;
+        border: none;
+        
+        /* On réduit ici : 1.8rem au lieu de 2.5rem */
+        font-size: 1rem; 
+        
+        /* On ajuste l'espacement pour que la zone de clic reste bonne */
+        padding: 5px 10px;
+        cursor: pointer;
+        color: var(--txt);
+        
+        /* Transition douce pour le changement burger/croix */
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    /* Optionnel : petit effet au clic */
+    .menu-toggle:active {
+        transform: scale(0.9);
+    }
+}
+

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Morgann Music AI</title>
+    <title>Litual AI</title>
     <meta property="og:image" content="3.png">
-    <meta property="og:description" content="L’intelligence au service de ton imagination.">
+    <meta property="og:description" content="L'inspiration à portée de clique. Litual est ton nouveau partenaire d'inspiration créative.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,76 +26,143 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
-    <meta name="theme-color" content="#59DAF5">
+    <meta name="theme-color" content="#c2af59">
 
+</head>
+    <style>
+      /* Centrage vertical de la navbar */
+      .navbar nav {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+      .navbar nav .logo {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+      #nav-links {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        gap: 1.5em;
+      }
+      #nav-links li {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+      .profile-container {
+        display: flex !important;
+        align-items: center !important;
+        height: 100%;
+      }
+      .menu-toggle {
+        align-self: center;
+      }
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 
 
 <body>
 
-        <header class="navbar" id="navbar">
-        <nav>
-            <div class="logo">
-                <a href="index.html">
-                    <img src="logo.png" alt="Mon Logo" class="logo" id="logo-dynamique">
-                </a>
-            </div>
-            <!-- Bouton Menu Hamburger -->
-            <button class="menu-toggle" id="menu-toggle">☰</button>
-<ul id="nav-links">
-    <li><a href="index.html">Menu</a></li>
-    <li><a href="download.html">Télécharger</a></li>
-    <li><a href="ia.html">IA</a></li>
-    <li><a href="https://app.morgannmusic.uk">Site Principal</a></li>
-
-  <li class="auth-buttons" id="authButtons" style="display:none;">
-    <a href="login.html?mode=signup" class="nav-auth-link">S’inscrire</a>
-    <a href="login.html?mode=login" class="nav-auth-link">Se connecter</a>
-  </li>
-
-    <!-- PROFIL -->
-    <li class="profile-container" id="profileContainer">
-<img src="pdp.png" id="profilePic" class="profile-pic">
-
-        <div class="profile-dropdown" id="profileDropdown">
-            <a href="compte.html">Compte</a>
-            <button id="logoutBtn">Déconnexion</button>
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <!-- Logo à gauche -->
+        <div class="logo">
+            <a href="index.html">
+                <img src="o!§ititititt.png" alt="Logo" class="logo spin" id="logo-dynamique">
+            </a>
         </div>
-    </li>
-</ul>
-        </nav>
-    </header>
+
+        <!-- Liens centraux -->
+        <ul id="nav-links">
+            <li><a href="index.html">Menu</a></li>
+            <li><a href="download.html">Télécharger</a></li>
+            <li><a href="ia.html">IA</a></li>
+            <li><a href="https://app.morgannmusic.uk">Site Principal</a></li>
+            
+            <!-- Boutons Auth mobiles -->
+            <li class="auth-buttons-mobile" id="authButtonsMobile" style="display:none;">
+                <a href="login.html?mode=signup" class="nav-auth-link">S’inscrire</a>
+                <a href="login.html?mode=login" class="nav-auth-link">Se connecter</a>
+            </li>
+        </ul>
+
+        <!-- Droite : Auth Desktop + Profil + Burger -->
+        <div class="nav-right">
+            <div class="auth-buttons-desktop" id="authButtonsDesktop" style="display:none;">
+                <a href="login.html?mode=signup" class="nav-auth-link">S’inscrire</a>
+                <a href="login.html?mode=login" class="nav-auth-link">Se connecter</a>
+            </div>
+
+            <div class="profile-container" id="profileContainer" style="display:none;">
+                <img src="pdp.png" id="profilePic" class="profile-pic" alt="Profil">
+                <div class="profile-dropdown" id="profileDropdown">
+                    <a href="compte.html">Compte</a>
+                    <button id="logoutBtn">Déconnexion</button>
+                </div>
+            </div>
+            
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+        </div>
+    </div>
+</nav>
 
     <main>
+       <h2 class="titre-ia">
+            <stong class="a">L</strong><stong class="b">i</strong><stong class="a">t</strong><stong class="b">u</strong><stong class="a">a</strong><stong class="b">l</strong> <stong class="a">A</strong><stong class="b">I</strong><stong class="a">.</strong>
+        </h2>
         <h2>
-            <stong>🪄 L’intelligence au service de ton imagination.</strong>
+            <stong>🚀 L'inspiration à portée de clique. 🖱️</strong>
         </h2>
         <p class="intro">
-            <strong>Morgann Music AI</strong> repense la façon dont tu crées. Ce n’est pas juste une <strong>IA</strong> : c’est ton nouveau partenaire d’inspiration. Dis-lui une idée, une émotion, une ambiance — il te répond en mots, ou en concepts.
-            Instantanément. Naturellement.
+Donnez vie à vos idées les plus complexes avec une simplicité déconcertante. 
+Propulsée par une architecture 14 fois plus performante, Litual AI transforme 
+chaque interaction en une réalisation concrète. Codez, créez et structurez 
+votre futur dans une interface pensée pour l'essentiel.
+
         </p>
 
-        <h1>🎧 Pensé pour vous. Conçu pour tous.</h1>
+        <h1>💎 La puissance, en toute légèreté.</h1>
 
-        <p>Que tu sois producteur, compositeur ou simplement curieux, Morgann Music AI t’aide à aller plus loin. Trouve le son juste, affine ton mix, découvre de nouvelles idées. Tout commence par une simple phrase.
+        <p>L’inspiration mérite un écrin. Plongez dans une interface aux tons pastels et aux courbes soignées, pensée pour libérer votre esprit. Avec son Markdown ultra-structuré, Litual AI rend chaque réponse limpide : tableaux, hiérarchie et clarté absolue.
 
         </p>
 
         <div class="simple-separator"></div>
 
 
-        <h1>💡 Inspire. Crée. Réinvente.
+        <h1>💻 Coder n’a jamais été aussi simple.
+
         </h1>
 
-        <p>Chaque idée mérite d’être entendue. Morgann Music AI te donne les moyens de la transformer en réalité. De la première note à la version finale, laisse-toi guider par une intelligence créative à ton rythme.
+        <p>De la première ligne de code au site web complet, Litual AI vous accompagne dans vos projets les plus démesurés. Visualisez le rendu en temps réel, modifiez chaque détail et téléchargez votre projet fini en un seul clic. La technologie Morgann AI CP met la puissance du développement entre vos mains.
 
         </p>
 
         <div class="simple-separator"></div>
 
+         <h1>✨ L'intelligence qui vous ressemble.
 
-        <p>🚀 La version <strong>2</strong>.0.<strong>2</strong></p>
+        </h1>
+
+        <p>Plus qu’une IA, un collaborateur qui apprend de vous. Définissez votre métier, vos compétences et vos préférences pour que Litual s’adapte à votre univers. Chaque réponse est calibrée selon vos besoins spécifiques pour une productivité sur mesure.
+        </p>
+
+        <div class="simple-separator"></div>
+
+               <h1>🚀 Réinventez votre futur.
+
+        </h1>
+
+        <p>Signée Morgann AI CP, Litual redéfinit les frontières entre l'homme et la machine. Ne vous contentez plus de demander, commencez à bâtir. La révolution est en marche sur ai.morgannmusic.uk.</p>
+
+        <div class="simple-separator"></div>
+
+
+        <p>🚀 La version <strong>1</strong>.0.<strong>2</strong></p>
 
         <div class="row">
             <a href="ia.html">
@@ -111,6 +178,44 @@
 </body>
 
 <script>
+  // Fondu overlay body et navbar au scroll (120px)
+  (function() {
+    const root = document.documentElement;
+    const body = document.body;
+    let isAltBg = false;
+    function setThemeColor(color) {
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute('content', color);
+    }
+    function setNavbarClass(add) {
+      const navbar = document.querySelector('.navbar.scrolled');
+      if (navbar) {
+        if (add) {
+          navbar.classList.add('scrolled-bg');
+        } else {
+          navbar.classList.remove('scrolled-bg');
+        }
+      }
+    }
+    function updateBgOnScroll() {
+      if (window.scrollY > 120 && !isAltBg) {
+        body.classList.add('body-alt-bg');
+        setThemeColor(getComputedStyle(root).getPropertyValue('--bg4').trim());
+        setNavbarClass(true);
+        isAltBg = true;
+      } else if (window.scrollY <= 120 && isAltBg) {
+        body.classList.remove('body-alt-bg');
+        setThemeColor(getComputedStyle(root).getPropertyValue('--bg1').trim());
+        setNavbarClass(false);
+        isAltBg = false;
+      }
+    }
+    window.addEventListener('scroll', updateBgOnScroll);
+    // Initialisation
+    body.classList.remove('body-alt-bg');
+    setThemeColor(getComputedStyle(root).getPropertyValue('--bg1').trim());
+    setNavbarClass(false);
+  })();
     // Blocage du site avec pop-up maintenance
     (function() {
       const popup = document.getElementById('maintenance-popup');
@@ -156,20 +261,36 @@
   setLogoBasedOnScheme();
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setLogoBasedOnScheme);
 </script>
-
 <script>
-  // Navbar scroll + hamburger (safe)
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    if (!navbar) return;
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
-  });
 
-  const menuToggle = document.getElementById('menu-toggle');
-  const navLinks = document.getElementById('nav-links');
-  menuToggle?.addEventListener('click', () => navLinks?.classList.toggle('active'));
+
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    
+    // Switch entre burger et croix
+    if (navLinks.classList.contains('active')) {
+        menuToggle.innerHTML = '✕'; // La croix
+        menuToggle.style.color = "black"; // Optionnel : changer la couleur si besoin
+        document.body.style.overflow = 'hidden'; // Bloque le scroll derrière
+    } else {
+        menuToggle.innerHTML = '☰'; // Le burger
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// Fermer quand on clique sur un lien
+document.querySelectorAll('#nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.innerHTML = '☰';
+        document.body.style.overflow = 'auto';
+    });
+});
+
 </script>
-
 <script>
   // GSAP (safe)
   if (window.gsap) {
@@ -201,7 +322,6 @@
   const auth = getAuth(app);
 
   const profileContainer = document.getElementById("profileContainer");
-  const profileDropdown = document.getElementById("profileDropdown");
   const authButtons = document.getElementById("authButtons");
 
   let isLoggedIn = false;
@@ -211,30 +331,19 @@
     if (authButtons) authButtons.style.display = isLoggedIn ? "none" : "flex";
     if (!isLoggedIn && profileDropdown) profileDropdown.style.display = "none";
   });
+const profilePic = document.getElementById('profilePic');
+const profileDropdown = document.getElementById('profileDropdown');
 
-  // ✅ clic sur la PDP
-  document.addEventListener("click", (e) => {
-    const pic = e.target.closest("#profilePic");
-    if (!pic) return;
+// Toggle du petit menu de profil
+profilePic.addEventListener('click', (e) => {
+    e.stopPropagation(); // Évite de trigger d'autres events
+    profileDropdown.style.display = profileDropdown.style.display === 'flex' ? 'none' : 'flex';
+});
 
-    if (!isLoggedIn) {
-      window.location.href = "login.html";
-      return;
-    }
-
-    const dropdown = document.getElementById("profileDropdown");
-    if (!dropdown) return;
-
-    dropdown.style.display = (dropdown.style.display === "flex") ? "none" : "flex";
-  });
-
-  // ✅ fermer menu si clic ailleurs
-  document.addEventListener("click", (e) => {
-    const container = document.getElementById("profileContainer");
-    const dropdown = document.getElementById("profileDropdown");
-    if (!container || !dropdown) return;
-    if (!container.contains(e.target)) dropdown.style.display = "none";
-  });
+// Fermer le dropdown si on clique ailleurs
+window.addEventListener('click', () => {
+    profileDropdown.style.display = 'none';
+});
 </script>
 
 </body>
